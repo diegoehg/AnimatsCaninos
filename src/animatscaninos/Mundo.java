@@ -11,7 +11,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
-import interfaz.Interfase;
+
+import animatscaninos.elementos.Animat;
+import animatscaninos.interfaz.Interfase;
 
 /** Applet donde esta implementado el mundo que rodea a los Animats y que además
  *  controla los Threads que estan siendo ejecutados a cada instante */
