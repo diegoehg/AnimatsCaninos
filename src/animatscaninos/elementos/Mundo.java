@@ -1,4 +1,4 @@
-package animatscaninos;
+package animatscaninos.elementos;
 
 import java.applet.Applet;
 import java.awt.BasicStroke;
@@ -12,7 +12,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
-import animatscaninos.elementos.Animat;
+import animatscaninos.agentes.Animat;
 import animatscaninos.interfaz.Interfase;
 
 /** Applet donde esta implementado el mundo que rodea a los Animats y que además

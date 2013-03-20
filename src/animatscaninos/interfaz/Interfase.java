@@ -15,8 +15,8 @@ package animatscaninos.interfaz;
  */
 
 import java.awt.Color;
-import animatscaninos.Mundo;
-import animatscaninos.elementos.Animat;
+import animatscaninos.agentes.Animat;
+import animatscaninos.elementos.Mundo;
 
 
 public class Interfase extends javax.swing.JFrame {
