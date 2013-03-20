@@ -17,10 +17,12 @@ public class Animat implements Runnable {
 		decideComportamiento();
 	}
 	
-	/** Sensor del Animat:
-	 *  Como sus contrapartes del mundo natural, los Animats pueden sensar el mundo
-	 *  a su alrededor. En nuestro caso, leemos las estructuras grÃ¡ficas instanciadas
-	 *  en la clase Mundo. */
+	/** 
+	 *  Es la rutina que detecta cuáles son los elementos del ambiente que están
+	 *  alrededor del Animat.
+	 *  
+	 *  TODO Verificar en donde iría esta rutina.
+	 */
 	private void Sensado() {
 		/*
 		 * TODO Reimplementar esta parte, ya sea aquÃ­ o en otro lado.
@@ -131,8 +133,12 @@ public class Animat implements Runnable {
 		*/
 	}
 	
+	/**
+	 * Algoritmo de decisión del comportamiento, basado en el mecanismo de
+	 * elección de Pattie Maes.
+	 */
 	private void decideComportamiento () {
-		/* AquÃ­ va el algoritmo de decisiÃ³n de comportamiento */
+		/* Aquí va el algoritmo de decisión de comportamiento */
 	}
 	
 	

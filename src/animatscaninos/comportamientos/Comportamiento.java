@@ -2,7 +2,9 @@ package animatscaninos.comportamientos;
 
 
 /**
- * Class Comportamiento
+ * Clase Comportamiento.
+ * 
+ * @author Diego Enrique Hernández González.
  */
 abstract public class Comportamiento {
 
