@@ -1,10 +1,10 @@
 package animatscaninos.comportamientos;
 
+import java.util.*;
+
 
 /**
- * Clase Comportamiento.
- * 
- * @author Diego Enrique Hernández González.
+ * Class Comportamiento
  */
 abstract public class Comportamiento {
 
@@ -12,8 +12,10 @@ abstract public class Comportamiento {
   // Fields
   //
 
-  private double nivelActivacion;
-  private double umbralActivacion;
+  private double nivelActivacion = 0;
+  private Proposicion[] precondiciones = null;
+  private Proposicion[] metas = null;
+  private Proposicion[] antimetas = null;
   
   //
   // Constructors
@@ -46,19 +48,51 @@ abstract public class Comportamiento {
   }
 
   /**
-   * Set the value of umbralActivacion
-   * @param newVar the new value of umbralActivacion
+   * Set the value of precondiciones
+   * @param newVar the new value of precondiciones
    */
-  private void setUmbralActivacion ( double newVar ) {
-    umbralActivacion = newVar;
+  private void setPrecondiciones ( Proposicion[] newVar ) {
+    precondiciones = newVar;
   }
 
   /**
-   * Get the value of umbralActivacion
-   * @return the value of umbralActivacion
+   * Get the value of precondiciones
+   * @return the value of precondiciones
    */
-  private double getUmbralActivacion ( ) {
-    return umbralActivacion;
+  private Proposicion[] getPrecondiciones ( ) {
+    return precondiciones;
+  }
+
+  /**
+   * Set the value of metas
+   * @param newVar the new value of metas
+   */
+  private void setMetas ( Proposicion[] newVar ) {
+    metas = newVar;
+  }
+
+  /**
+   * Get the value of metas
+   * @return the value of metas
+   */
+  private Proposicion[] getMetas ( ) {
+    return metas;
+  }
+
+  /**
+   * Set the value of antimetas
+   * @param newVar the new value of antimetas
+   */
+  private void setAntimetas ( Proposicion[] newVar ) {
+    antimetas = newVar;
+  }
+
+  /**
+   * Get the value of antimetas
+   * @return the value of antimetas
+   */
+  private Proposicion[] getAntimetas ( ) {
+    return antimetas;
   }
 
   //
@@ -67,18 +101,29 @@ abstract public class Comportamiento {
 
   /**
    */
-  abstract public void ejecutar(  );
+  abstract public void calcularNivelActivacion(  );
 
 
   /**
+   * @return       boolean
    */
-  abstract public void calculaNivelActivacion(  );
+  public boolean isActivo(  )
+  {
+  }
 
 
   /**
-   * @param        energia
+   * @return       boolean
    */
-  public void sumarNivelActivacion_( double energia )
+  public boolean isEjecutable(  )
+  {
+  }
+
+
+  /**
+   * @return       double
+   */
+  public double getNivelActivacion(  )
   {
   }
 

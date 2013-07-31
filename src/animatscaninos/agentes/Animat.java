@@ -4,13 +4,13 @@ package animatscaninos.agentes;
  * Esta clase representa al agente Animat. Contiene el modelo de toma de
  * decisiones del Animat y ejecuta los comportamientos.
  * 
- * @author Diego Enrique Hernández González.
+ * @author Diego Enrique HernÃ¡ndez GonzÃ¡lez.
  *
  */
 public class Animat implements Runnable {
 	
 	/**
-	 * TODO Definir cómo se va a ejecutar este algoritmo.
+	 * TODO Definir cÃ³mo se va a ejecutar este algoritmo.
 	 */
 	public void run() {
 		Sensado();
@@ -18,10 +18,10 @@ public class Animat implements Runnable {
 	}
 	
 	/** 
-	 *  Es la rutina que detecta cuáles son los elementos del ambiente que están
+	 *  Es la rutina que detecta cuÃ¡les son los elementos del ambiente que estÃ¡n
 	 *  alrededor del Animat.
 	 *  
-	 *  TODO Verificar en donde iría esta rutina.
+	 *  TODO Verificar en donde irÃ­a esta rutina.
 	 */
 	private void Sensado() {
 		/*
@@ -134,11 +134,11 @@ public class Animat implements Runnable {
 	}
 	
 	/**
-	 * Algoritmo de decisión del comportamiento, basado en el mecanismo de
-	 * elección de Pattie Maes.
+	 * Algoritmo de decisiï¿½n del comportamiento, basado en el mecanismo de
+	 * elecciï¿½n de Pattie Maes.
 	 */
 	private void decideComportamiento () {
-		/* Aquí va el algoritmo de decisión de comportamiento */
+		/* Aquï¿½ va el algoritmo de decisiï¿½n de comportamiento */
 	}
 	
 	
