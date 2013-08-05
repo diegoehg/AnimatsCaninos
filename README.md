@@ -2,18 +2,17 @@ AnimatsCaninos
 ==============
 
 Proyecto realizado durante la maestría, basado en el artículo de Pattie Maes, 
-titulado "A Bottom Up Mechanism for Behavior Selection in an Artificial 
-Creature". En dicho artículo se plantea cómo seleccionar el comportamiento
-activo de agentes autónomos, a los cuales Maes denomina como "animats". 
+titulado _A Bottom Up Mechanism for Behavior Selection in an Artificial 
+Creature_. En dicho artículo se plantea cómo seleccionar el comportamiento
+activo de agentes autónomos, a los cuales Maes denomina como _animats_. 
 
-Cada comportamiento tiene un umbral de activación, una variable que repre-
-senta su nivel de activación, y una regla de activación. Cada regla establece
+Cada comportamiento tiene un umbral de activación, un nivel de activación, y una regla de activación. Cada regla establece
 cómo varía el nivel de activación del comportamiento, en función de condicio-
 nes necesarias para la activación presentes en el entorno y de la magnitud de 
 los niveles de activación de los otros comportamientos.
 
 Todos los comportamientos se encuentran ligados por medio de una red, y ca-
-da enlace se clasifica en "predecesores", "sucesores" y "conflictores". Los pre-
+da enlace se clasifica en _predecesores_, _sucesores_ y _conflictores_. Los pre-
 decesores son aquellos comportamientos que facilitan que las condiciones para
 que otro comportamiento se dispare se presenten; los conflictores son aquellos
 que inhiben dichas condiciones, y los sucesores son los comportamientos co-
@@ -37,6 +36,6 @@ bugs aún, así como el código está desordenado.
 El objetivo de recuperar este proyecto es mejorar el esquema planteado por 
 Maes, así como incorporar otros mecanismos de selección de comportamiento. 
 Además, se pretende incorporar emociones sintéticas a los animats de este 
-proyecto, basándose en las ideas planteadas por Rosalynd Picard.
+proyecto, basándose en las ideas planteadas por Rosalynd Picard. La fase en la que se encuentra es en el análisis y diseño del sistema.
 
 Cualquier comentario o contribución es bienvenido :)
