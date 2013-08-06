@@ -7,155 +7,99 @@ import java.util.*;
 
 
 /**
- * Class Proposicion
- * Representa un enunciado acerca del estado del mundo, el cual puede ser cierto o
- * no.
+ * Clase Proposicion.
+ * 
+ * Representa un enunciado acerca del estado del mundo, el cual se puede cumplir
+ * o no. Los hechos acerca del mundo sirven como metas o precondiciones de los
+ * comportamientos de los Animats.
+ * 
+ * @author Diego Enrique Hernández González.
  */
 abstract public class Proposicion {
-
-  //
-  // Fields
-  //
-
-  private Mundo mundo;
-  private Comportamiento[] sucesores = null;
-  private Comportamiento[] predecesores = null;
-  private Comportamiento[] inhibidores = null;
+	private Mundo mundo;
+	
+	/** Los comportamientos para los cuales esta proposición es una 
+	 *  precondición. */
+	private Comportamiento[] sucesores = null;
+	
+	/** Los comportamientos que activan esta preposición. */
+	private Comportamiento[] predecesores = null;
+	
+	/** Los comportamientos que inhiben esta preposición. */
+	private Comportamiento[] inhibidores = null;
   
-  //
-  // Constructors
-  //
-  public Proposicion () { };
+	public Proposicion () { };
   
-  //
-  // Methods
-  //
+	/**
+	 * Introduce la instancia del mundo sobre el cual se verificará esta 
+	 * proposición.
+	 * @param newVar Instancia del mundo.
+	 */
+	private void setMundo (Mundo newVar) {
+		mundo = newVar;
+	}
 
+	/**
+	 * Obtiene la instancia del mundo sobre la cual se verifica esta 
+	 * proposición.
+	 * @return Instancia del mundo.
+	 */
+	private Mundo getMundo() {
+		return mundo;
+	}
 
-  //
-  // Accessor methods
-  //
+	/**
+	 * Introduce los comportamientos para los cuales ésta proposición es una
+	 * precondición.
+	 * @param newVar Arreglo de comportamientos.
+	 */
+	private void setSucesores(Comportamiento[] newVar) {
+		sucesores = newVar;
+	}
 
-  /**
-   * Set the value of mundo
-   * @param newVar the new value of mundo
-   */
-  private void setMundo ( Mundo newVar ) {
-    mundo = newVar;
-  }
+	/**
+	 * Obtiene los comportamientos sucesores de esta proposición.
+	 * @return Arreglo de comportamientos sucesores.
+	 */
+	public Comportamiento[] getSucesores() {
+		return sucesores;
+	}
 
-  /**
-   * Get the value of mundo
-   * @return the value of mundo
-   */
-  private Mundo getMundo ( ) {
-    return mundo;
-  }
+	/**
+	 * Introduce los comportamientos predecesores de este enunciado.
+	 * @param newVar Arreglo de comportamientos.
+	 */
+	private void setPredecesores ( Comportamiento[] newVar ) {
+		predecesores = newVar;
+	}
 
-  /**
-   * Set the value of sucesores
-   * @param newVar the new value of sucesores
-   */
-  private void setSucesores ( Comportamiento[] newVar ) {
-    sucesores = newVar;
-  }
+	/**
+	 * Obtiene los comportamientos predecesores de este enunciado.
+	 * @return Arreglo de los comportamientos predecesores.
+	 */
+	public Comportamiento[] getPredecesores ( ) {
+		return predecesores;
+	}
 
-  /**
-   * Get the value of sucesores
-   * @return the value of sucesores
-   */
-  private Comportamiento[] getSucesores ( ) {
-    return sucesores;
-  }
+	/**
+	 * Introduce los comportamientos inhibidores de esta proposición.
+	 * @param newVar Arreglo de comportamientos.
+	 */
+	private void setInhibidores ( Comportamiento[] newVar ) {
+		inhibidores = newVar;
+	}
 
-  /**
-   * Set the value of predecesores
-   * @param newVar the new value of predecesores
-   */
-  private void setPredecesores ( Comportamiento[] newVar ) {
-    predecesores = newVar;
-  }
+	/**
+	 * Obtiene los comportamientos inhibidores de esta proposición.
+	 * @return Arreglo de los comportamientos inhibidores.
+	 */
+	public Comportamiento[] getInhibidores ( ) {
+		return inhibidores;
+	}
 
-  /**
-   * Get the value of predecesores
-   * @return the value of predecesores
-   */
-  private Comportamiento[] getPredecesores ( ) {
-    return predecesores;
-  }
-
-  /**
-   * Set the value of inhibidores
-   * @param newVar the new value of inhibidores
-   */
-  private void setInhibidores ( Comportamiento[] newVar ) {
-    inhibidores = newVar;
-  }
-
-  /**
-   * Get the value of inhibidores
-   * @return the value of inhibidores
-   */
-  private Comportamiento[] getInhibidores ( ) {
-    return inhibidores;
-  }
-
-  //
-  // Other methods
-  //
-
-  /**
-   * @return       boolean
-   */
-  abstract public boolean seCumple(  );
-
-
-  /**
-   * @return       Comportamiento[]
-   */
-  public Comportamiento[] getPrecesores(  )
-  {
-  }
-
-
-  /**
-   * @return       Comportamiento[]
-   */
-  public Comportamiento[] getSucesores(  )
-  {
-  }
-
-
-  /**
-   * @return       Comportamiento[]
-   */
-  public Comportamiento[] getInhibidores(  )
-  {
-  }
-
-
-  /**
-   * @param        p
-   */
-  public void setPredecesores( Comportamiento[] p )
-  {
-  }
-
-
-  /**
-   * @param        s
-   */
-  public void setSucesores( Comportamiento[] s )
-  {
-  }
-
-
-  /**
-   * @param        i
-   */
-  public void setInhibidores( Comportamiento[] i )
-  {
-  }
-
-
+	/**
+	 * Verifica si esta proposición se cumple en el mundo.
+	 * @return Resultado de la verificación.
+	 */
+	abstract public boolean seCumple();
 }

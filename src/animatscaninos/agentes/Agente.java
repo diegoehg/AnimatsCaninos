@@ -8,238 +8,290 @@ import animatscaninos.comportamientos.Comportamiento;
 
 /**
  * Clase que encapsula cómo elige un comportamiento un agente, de acuerdo a
- * el esquema propuesto por Pattie Maes.
+ * el esquema propuesto por Pattie Maes [1].
+ * 
+ * [1] Maes, P. "How to do the right thing". Connection Science 1(3):291-323.
  * 
  * @author Diego Hdez.
  *
  */
 public class Agente {
-
-  //
-  // Fields
-  //
-
-  private double mediaActivacion = 0;
-  private double umbralActivacion = 0;
-  private double activacionPorPrecondicion = 0;
-  private double activacionPorMeta = 0;
-  private Comportamiento comportamientoActivo = null;
-  private Proposicion[] proposiciones = null;
-  private double inhibicionPorMetaProtegida = 0;
-  private Comportamiento[] comportamientos = null;
-  private Proposicion[] metasProtegidas = null;
+	/** Nivel promedio de activación de todos los agentes. */
+	private static double mediaActivacion = 0;
+	
+	/** Umbral de activación por agente. */
+	private static double umbralActivacion = 0;
+	
+	/** Monto de energía inyectada por el estado del mundo por cada proposición 
+	 *  verdadera. */
+	private static double activacionPorPrecondicion = 0;
+	
+	/** Monto de energía inyectada por las metas predecesoras. */
+	private static double activacionPorMeta = 0;
+	
+	/** Comportamiento activo en el sistema. */
+	private Comportamiento comportamientoActivo = null;
+	
+	/** Conjunto de proposiciones realizadas sobre el ambiente de los Animats */
+	private Proposicion[] proposiciones = null;
+	
+	/** Monto de energía que se toma de este comportamiento para proteger una
+	 *  meta ya cumplida. */
+	private static double inhibicionPorMetaProtegida = 0;
+	
+	/** Conjunto de los comportamientos del agente. */
+	private Comportamiento[] comportamientos = null;
+	
+	/** Metas que ya alcanzó el agente y deben ser protegidas. */
+	private Vector<Proposicion> metasProtegidas = null;
   
-  //
-  // Constructors
-  //
-  public Agente () { };
+	/** Constructor. */
+	public Agente () { };
   
-  //
-  // Methods
-  //
+	/**
+	 * Introduce el valor de la energía media de activación.
+	 * @param newVar Monto de energía establecida.
+	 */
+	public static void setMediaActivacion ( double newVar ) {
+		mediaActivacion = newVar;
+	}
 
+	/**
+	 * Obtiene el valor de la media de activación de los agentes.
+	 * @return Media de activación.
+	 */
+	public static double getMediaActivacion ( ) {
+		return mediaActivacion;
+	}
 
-  //
-  // Accessor methods
-  //
+	/**
+	 * Introduce el valor del umbral de activación.
+	 * @param newVar Nuevo valor del umbral de activación.
+	 */
+	public static void setUmbralActivacion ( double newVar ) {
+		umbralActivacion = newVar;
+	}
 
-  /**
-   * Set the value of mediaActivacion
-   * @param newVar the new value of mediaActivacion
-   */
-  private void setMediaActivacion ( double newVar ) {
-    mediaActivacion = newVar;
-  }
+	/**
+	 * Obtiene el valor del umbral de activación.
+	 * @return Monto del umbral de activación.
+	 */
+	public static double getUmbralActivacion ( ) {
+		return umbralActivacion;
+	}
 
-  /**
-   * Get the value of mediaActivacion
-   * @return the value of mediaActivacion
-   */
-  private double getMediaActivacion ( ) {
-    return mediaActivacion;
-  }
+	/**
+	 * Introduce el valor de activación por precondición.
+	 * @param newVar Nuevo monto de activación por precondición.
+	 */
+	public static void setActivacionPorPrecondicion ( double newVar ) {
+		activacionPorPrecondicion = newVar;
+	}
 
-  /**
-   * Set the value of umbralActivacion
-   * @param newVar the new value of umbralActivacion
-   */
-  private void setUmbralActivacion ( double newVar ) {
-    umbralActivacion = newVar;
-  }
+	/**
+	 * Obtiene el valor de activación por precondición.
+	 * @return Monto de activación por precondición.
+	 */
+	public static double getActivacionPorPrecondicion ( ) {
+		return activacionPorPrecondicion;
+	}
 
-  /**
-   * Get the value of umbralActivacion
-   * @return the value of umbralActivacion
-   */
-  private double getUmbralActivacion ( ) {
-    return umbralActivacion;
-  }
+	/**
+	 * Establece el valor de activación por meta.
+	 * @param newVar Nuevo monto de activación por meta.
+	 */
+	public static void setActivacionPorMeta ( double newVar ) {
+		activacionPorMeta = newVar;
+	}
 
-  /**
-   * Set the value of activacionPorPrecondicion
-   * @param newVar the new value of activacionPorPrecondicion
-   */
-  private void setActivacionPorPrecondicion ( double newVar ) {
-    activacionPorPrecondicion = newVar;
-  }
+	/**
+	 * Devuelve el valor de activación por meta.
+	 * @return Monto de activación por meta.
+	 */
+	public static double getActivacionPorMeta ( ) {
+		return activacionPorMeta;
+	}
 
-  /**
-   * Get the value of activacionPorPrecondicion
-   * @return the value of activacionPorPrecondicion
-   */
-  private double getActivacionPorPrecondicion ( ) {
-    return activacionPorPrecondicion;
-  }
+	/**
+	 * Establece el comportamiento activo.
+	 * @param newVar the new value of comportamientoActivo
+	 */
+	private void setComportamientoActivo ( Comportamiento newVar ) {
+		comportamientoActivo = newVar;
+	}
 
-  /**
-   * Set the value of activacionPorMeta
-   * @param newVar the new value of activacionPorMeta
-   */
-  private void setActivacionPorMeta ( double newVar ) {
-    activacionPorMeta = newVar;
-  }
+	/**
+	 * Devuelve el comportamiento activo.
+	 * @return the value of comportamientoActivo
+	 */
+	private Comportamiento getComportamientoActivo ( ) {
+		return comportamientoActivo;
+	}
 
-  /**
-   * Get the value of activacionPorMeta
-   * @return the value of activacionPorMeta
-   */
-  private double getActivacionPorMeta ( ) {
-    return activacionPorMeta;
-  }
+	/**
+	 * Establece el conjunto de proposiciones sobre el mundo.
+	 * @param newVar the new value of proposiciones
+	 */
+	private void setProposiciones ( Proposicion[] newVar ) {
+		proposiciones = newVar;
+	}
 
-  /**
-   * Set the value of comportamientoActivo
-   * @param newVar the new value of comportamientoActivo
-   */
-  private void setComportamientoActivo ( Comportamiento newVar ) {
-    comportamientoActivo = newVar;
-  }
+	/**
+	 * Obtiene el conjunto de proposiciones sobre el mundo.
+	 * @return the value of proposiciones
+	 */
+	private Proposicion[] getProposiciones ( ) {
+		return proposiciones;
+	}
 
-  /**
-   * Get the value of comportamientoActivo
-   * @return the value of comportamientoActivo
-   */
-  private Comportamiento getComportamientoActivo ( ) {
-    return comportamientoActivo;
-  }
+	/**
+	 * Establece el monto de energía extraído por meta protegida.
+	 * @param newVar Nuevo monto de energía por meta protegida.
+	 */
+	public static void setInhibicionPorMetaProtegida ( double newVar ) {
+		inhibicionPorMetaProtegida = newVar;
+	}
 
-  /**
-   * Set the value of proposiciones
-   * @param newVar the new value of proposiciones
-   */
-  private void setProposiciones ( Proposicion[] newVar ) {
-    proposiciones = newVar;
-  }
+	/**
+	 * Obtiene el monto de energía que extrae cada meta protegida.
+	 * @return Monto de energía por meta protegida.
+	 */
+	public static double getInhibicionPorMetaProtegida ( ) {
+		return inhibicionPorMetaProtegida;
+	}
 
-  /**
-   * Get the value of proposiciones
-   * @return the value of proposiciones
-   */
-  private Proposicion[] getProposiciones ( ) {
-    return proposiciones;
-  }
+	/**
+	 * Introduce el conjunto de comportamientos del Animat.
+	 * @param newVar the new value of comportamientos
+	 */
+	private void setComportamientos ( Comportamiento[] newVar ) {
+		comportamientos = newVar;
+	}
 
-  /**
-   * Set the value of inhibicionPorMetaProtegida
-   * @param newVar the new value of inhibicionPorMetaProtegida
-   */
-  private void setInhibicionPorMetaProtegida ( double newVar ) {
-    inhibicionPorMetaProtegida = newVar;
-  }
+	/**
+	 * Obtiene los comportamientos del Animat.
+	 * @return the value of comportamientos
+	 */
+	private Comportamiento[] getComportamientos ( ) {
+		return comportamientos;
+	}
 
-  /**
-   * Get the value of inhibicionPorMetaProtegida
-   * @return the value of inhibicionPorMetaProtegida
-   */
-  private double getInhibicionPorMetaProtegida ( ) {
-    return inhibicionPorMetaProtegida;
-  }
+	/**
+	 * Introduce el conjunto de metas protegidas.
+	 * @param newVar Vector de las metas protegidas.
+	 */
+	private void setMetasProtegidas ( Vector<Proposicion> newVar ) {
+		metasProtegidas = newVar;
+	}
 
-  /**
-   * Set the value of comportamientos
-   * @param newVar the new value of comportamientos
-   */
-  private void setComportamientos ( Comportamiento[] newVar ) {
-    comportamientos = newVar;
-  }
+	/**
+	 * Obtiene las metas protegidas del sistema.
+	 * @return Vector de metas protegidas.
+	 */
+	private Vector<Proposicion> getMetasProtegidas() {
+		return metasProtegidas;
+	}
 
-  /**
-   * Get the value of comportamientos
-   * @return the value of comportamientos
-   */
-  private Comportamiento[] getComportamientos ( ) {
-    return comportamientos;
-  }
-
-  /**
-   * Set the value of metasProtegidas
-   * @param newVar the new value of metasProtegidas
-   */
-  private void setMetasProtegidas ( Proposicion[] newVar ) {
-    metasProtegidas = newVar;
-  }
-
-  /**
-   * Get the value of metasProtegidas
-   * @return the value of metasProtegidas
-   */
-  private Proposicion[] getMetasProtegidas ( ) {
-    return metasProtegidas;
-  }
-
-  //
-  // Other methods
-  //
-
-  /**
-   * Evalúa el conjunto de proposiciones relativas a este agente, y elige a
-   * aquellas que son verdaderas y las devuelve.
-   * 
-   * @return Conjunto de proposiciones verdaderas.
-   */
-  public Vector<Proposicion> getProposicionesVerdaderas() {
-	  Vector<Proposicion> verdaderas = new Vector<Proposicion>();
+	/**
+	 * Evalúa el conjunto de proposiciones relativas a este agente, y elige a
+	 * aquellas que son verdaderas y las devuelve.
+	 * 
+	 * @return Conjunto de proposiciones verdaderas.
+	 */
+	public Vector<Proposicion> getProposicionesVerdaderas() {
+		Vector<Proposicion> verdaderas = new Vector<Proposicion>();
 	  
-	  for(Proposicion p:proposiciones) {
-		  if(p.seCumple())
-			  verdaderas.add(p);
-	  }
+		for(Proposicion p:proposiciones) {
+			if(p.seCumple())
+				verdaderas.add(p);
+		}
 	  
-	  return verdaderas;
-  }
+		return verdaderas;
+	}
 
 
-  /**
-   * Obtiene el conjunto de metas activas y las devuelve.
-   * @return Vector con las metas activas en un instante del tiempo.
-   */
-  public Vector<Proposicion> getMetasActivas() {
-	  Vector<Proposicion> activas = new Vector<Proposicion>();
-	  return activas;
-  }
+	/**
+	 * Obtiene el conjunto de metas activas y las devuelve.
+	 * @return Vector con las metas activas en un instante del tiempo.
+	 * TODO Implementar.
+	 */
+	private Vector<Proposicion> getMetasActivas() {
+		Vector<Proposicion> activas = new Vector<Proposicion>();
+		return activas;
+	}
 
-
-  /**
-   * @return       Proposicion[]
-   */
-  public Proposicion[] getMetasProtegidas(  )
-  {
-  }
-
-
-  /**
-   * Ejecuta el algorito de selección del comportamiento.
-   */
-  private void decidirComportamiento() {
-	  
-  }
-
-
-  /**
-   */
-  private static void verificarCondiciones(  )
-  {
-  }
-
-
+	/**
+	 * Ejecuta el algoritmo de selección del comportamiento.
+	 */
+	private void decidirComportamiento() {
+		
+	}
+	
+	/**
+	 * Obtiene un monto unitario de energía, dividiendo el monto indicado entre
+	 * el número de comportamientos y el número de proposiciones. Este cálculo
+	 * se repite constatemente en todo el modelo del agente.
+	 * 
+	 * @param e Monto de energía que se reparte entre comportamientos y 
+	 * proposiciones.
+	 * @param c Comportamientos.
+	 * @param p Proposiciones.
+	 * @return Monto de energía unitario.
+	 */
+	private static double getMontoUnitario(double e, Comportamiento[] c, 
+			Proposicion[] p) {
+		return e * (1 / c.length) * (1 / p.length);
+	}
+	
+	/**
+	 * Estima la energía de activación obtenida por un comportamiento de acuerdo
+	 * al estado actual del mundo. 
+	 * 
+	 * @param c Comportamiento que recibe la energía de activación.
+	 * @return Monto de energía recibido.
+	 */
+	private double activacionDesdeEstadoActual(Comportamiento c) {
+		double energia = 0;
+		
+		for(Proposicion p: c.getPrecondiciones())
+			if(p.seCumple())
+				energia += getMontoUnitario(getActivacionPorPrecondicion(), 
+						p.getSucesores(), c.getPrecondiciones());
+		
+		return energia;
+	}
+	
+	/**
+	 * Calcula la cantidad de energía de activación obtenida por las metas
+	 * activas de un comportamiento.
+	 * @param c Comportamiento.
+	 * @return Monto de energía recibido.
+	 */
+	private double activacionDesdeMetas(Comportamiento c) {
+		double energia = 0;
+		
+		for(Proposicion p: c.getMetas())
+			if(getMetasActivas().contains(p))
+				energia += getMontoUnitario(getActivacionPorMeta(), 
+						p.getPredecesores(), c.getMetas());
+		
+		return energia;
+	}
+	
+	/**
+	 * Calcula la cantidad de energía extraída del nivel de activación de un
+	 * comportamiento por las metas que ya están protegidas.
+	 * @param c Comportamiento.
+	 * @return Monto de energía extraído.
+	 */
+	private double inhibicionDesdeMetasProtegidas(Comportamiento c) {
+		double energia = 0;
+		
+		for(Proposicion p: c.getAntimetas())
+			if(getMetasProtegidas().contains(p))
+				energia += getMontoUnitario(getInhibicionPorMetaProtegida(), 
+						p.getInhibidores(), c.getAntimetas());
+		
+		return energia;
+	}
 }

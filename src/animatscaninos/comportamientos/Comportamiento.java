@@ -1,131 +1,115 @@
 package animatscaninos.comportamientos;
 
-import java.util.*;
-
+import animatscaninos.agentes.Proposicion;
 
 /**
- * Class Comportamiento
+ * Clase Comportamiento.
+ * 
+ * Encapsula la funcionalidad general de un módulo de comportamiento. Las
+ * acciones particulares ejecutadas por los comportamientos son implementadas
+ * parte.
+ * 
+ * @author Diego Enrique Hernández González.
  */
 abstract public class Comportamiento {
-
-  //
-  // Fields
-  //
-
-  private double nivelActivacion = 0;
-  private Proposicion[] precondiciones = null;
-  private Proposicion[] metas = null;
-  private Proposicion[] antimetas = null;
+	private double nivelActivacion = 0;
+	
+	/** Precondiciones para que este comportamiento sea activado. */
+	private Proposicion[] precondiciones = null;
+	
+	/** Metas activadas por este comportamiento. */
+	private Proposicion[] metas = null;
+	
+	/** Metas desactivadas por este comportamiento. */
+	private Proposicion[] antimetas = null;
   
-  //
-  // Constructors
-  //
-  public Comportamiento () { };
+	public Comportamiento () { };
   
-  //
-  // Methods
-  //
+	/**
+	 * Establece el nivel de activación de este comportamiento.
+	 * @param newVar Nuevo nivel de activación.
+	 */
+	private void setNivelActivacion ( double newVar ) {
+		nivelActivacion = newVar;
+	}
+
+	/**
+	 * @return Nivel de activación de este comportamiento.
+	 */
+	public double getNivelActivacion() {
+		return nivelActivacion;
+	}
+
+	/**
+	 * Establece el conjunto de precondiciones de este comportamiento.
+	 * @param newVar Arreglo de proposiciones.
+	 */
+	private void setPrecondiciones (Proposicion[] newVar) {
+		precondiciones = newVar;
+	}
+
+	/**
+	 * Obtiene el conjunto de precondiciones de este comportamiento.
+	 * @return Arreglo de proposiciones.
+	 */
+	public Proposicion[] getPrecondiciones() {
+		return precondiciones;
+	}
+
+	/**
+	 * Introduce las metas a las cuales facilita este comportamiento.
+	 * @param newVar Metas de este comportamiento.
+	 */
+	private void setMetas ( Proposicion[] newVar ) {
+		metas = newVar;
+	}
+
+	/**
+	 * @return Arreglo de las metas que activa este comportamiento.
+	 */
+	public Proposicion[] getMetas ( ) {
+		return metas;
+	}
+
+	/**
+	 * Introduce las metas las cuales son evitadas por este comportamiento.
+	 * @param newVar Arreglo de metas.
+	 */
+	private void setAntimetas ( Proposicion[] newVar ) {
+		antimetas = newVar;
+	}
+
+	/**
+	 * Obtiene las metas que son inhibidas al ejecutarse este comportamiento.
+	 * @return Arreglo de metas inhibidas. 
+	 */
+	public Proposicion[] getAntimetas() {
+		return antimetas;
+	}
+
+	/**
+	 * Corre una estimación del nivel de activación de este comportamiento.
+	 * TODO Verificar si es necesario.
+	 */
+	abstract public void calcularNivelActivacion(  );
 
 
-  //
-  // Accessor methods
-  //
-
-  /**
-   * Set the value of nivelActivacion
-   * @param newVar the new value of nivelActivacion
-   */
-  private void setNivelActivacion ( double newVar ) {
-    nivelActivacion = newVar;
-  }
-
-  /**
-   * Get the value of nivelActivacion
-   * @return the value of nivelActivacion
-   */
-  private double getNivelActivacion ( ) {
-    return nivelActivacion;
-  }
-
-  /**
-   * Set the value of precondiciones
-   * @param newVar the new value of precondiciones
-   */
-  private void setPrecondiciones ( Proposicion[] newVar ) {
-    precondiciones = newVar;
-  }
-
-  /**
-   * Get the value of precondiciones
-   * @return the value of precondiciones
-   */
-  private Proposicion[] getPrecondiciones ( ) {
-    return precondiciones;
-  }
-
-  /**
-   * Set the value of metas
-   * @param newVar the new value of metas
-   */
-  private void setMetas ( Proposicion[] newVar ) {
-    metas = newVar;
-  }
-
-  /**
-   * Get the value of metas
-   * @return the value of metas
-   */
-  private Proposicion[] getMetas ( ) {
-    return metas;
-  }
-
-  /**
-   * Set the value of antimetas
-   * @param newVar the new value of antimetas
-   */
-  private void setAntimetas ( Proposicion[] newVar ) {
-    antimetas = newVar;
-  }
-
-  /**
-   * Get the value of antimetas
-   * @return the value of antimetas
-   */
-  private Proposicion[] getAntimetas ( ) {
-    return antimetas;
-  }
-
-  //
-  // Other methods
-  //
-
-  /**
-   */
-  abstract public void calcularNivelActivacion(  );
+	/**
+	 * Verifica si este comportamiento está activo.
+	 * TODO Implementar.
+	 * @return Resultado de la verificación.
+	 */
+	public boolean isActivo() {
+		return false;
+	}
 
 
-  /**
-   * @return       boolean
-   */
-  public boolean isActivo(  )
-  {
-  }
-
-
-  /**
-   * @return       boolean
-   */
-  public boolean isEjecutable(  )
-  {
-  }
-
-
-  /**
-   * @return       double
-   */
-  public double getNivelActivacion(  )
-  {
-  }
-
-
+	/**
+	 * Verifica si este comportamiento está en estado ejecutable.
+	 * TODO Implementar.
+	 * @return Resultado de la verificación.
+	 */
+	public boolean isEjecutable() {
+		return false;
+	}
 }
