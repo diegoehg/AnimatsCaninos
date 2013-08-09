@@ -337,4 +337,9 @@ public class Agente {
 		
 		return energia;
 	}
+	
+	private double inhibeActivacion(Comportamiento x, Comportamiento y) {
+		double energia = 0;
+		return energia;
+	}
 }
