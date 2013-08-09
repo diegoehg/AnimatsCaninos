@@ -3,8 +3,7 @@ package animatscaninos.agentes;
 import animatscaninos.comportamientos.Comportamiento;
 import animatscaninos.elementos.Mundo;
 
-import java.util.*;
-
+import java.util.Vector;
 
 /**
  * Clase Proposicion.
@@ -20,13 +19,13 @@ abstract public class Proposicion {
 	
 	/** Los comportamientos para los cuales esta proposición es una 
 	 *  precondición. */
-	private Comportamiento[] sucesores = null;
+	private Vector<Comportamiento> sucesores = null;
 	
 	/** Los comportamientos que activan esta preposición. */
-	private Comportamiento[] predecesores = null;
+	private Vector<Comportamiento> predecesores = null;
 	
 	/** Los comportamientos que inhiben esta preposición. */
-	private Comportamiento[] inhibidores = null;
+	private Vector<Comportamiento> inhibidores = null;
   
 	public Proposicion () { };
   
@@ -51,49 +50,49 @@ abstract public class Proposicion {
 	/**
 	 * Introduce los comportamientos para los cuales ésta proposición es una
 	 * precondición.
-	 * @param newVar Arreglo de comportamientos.
+	 * @param newVar Vector de comportamientos.
 	 */
-	private void setSucesores(Comportamiento[] newVar) {
+	private void setSucesores(Vector<Comportamiento> newVar) {
 		sucesores = newVar;
 	}
 
 	/**
 	 * Obtiene los comportamientos sucesores de esta proposición.
-	 * @return Arreglo de comportamientos sucesores.
+	 * @return Vector de comportamientos sucesores.
 	 */
-	public Comportamiento[] getSucesores() {
+	public Vector<Comportamiento> getSucesores() {
 		return sucesores;
 	}
 
 	/**
 	 * Introduce los comportamientos predecesores de este enunciado.
-	 * @param newVar Arreglo de comportamientos.
+	 * @param newVar Vector de comportamientos.
 	 */
-	private void setPredecesores ( Comportamiento[] newVar ) {
+	private void setPredecesores(Vector<Comportamiento> newVar) {
 		predecesores = newVar;
 	}
 
 	/**
 	 * Obtiene los comportamientos predecesores de este enunciado.
-	 * @return Arreglo de los comportamientos predecesores.
+	 * @return Vector de los comportamientos predecesores.
 	 */
-	public Comportamiento[] getPredecesores ( ) {
+	public Vector<Comportamiento> getPredecesores ( ) {
 		return predecesores;
 	}
 
 	/**
 	 * Introduce los comportamientos inhibidores de esta proposición.
-	 * @param newVar Arreglo de comportamientos.
+	 * @param newVar Vector de comportamientos.
 	 */
-	private void setInhibidores ( Comportamiento[] newVar ) {
+	private void setInhibidores(Vector<Comportamiento> newVar) {
 		inhibidores = newVar;
 	}
 
 	/**
 	 * Obtiene los comportamientos inhibidores de esta proposición.
-	 * @return Arreglo de los comportamientos inhibidores.
+	 * @return Vector de los comportamientos inhibidores.
 	 */
-	public Comportamiento[] getInhibidores ( ) {
+	public Vector<Comportamiento> getInhibidores ( ) {
 		return inhibidores;
 	}
 

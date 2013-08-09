@@ -2,6 +2,8 @@ package animatscaninos.comportamientos;
 
 import animatscaninos.agentes.Proposicion;
 
+import java.util.Vector;
+
 /**
  * Clase Comportamiento.
  * 
@@ -15,13 +17,13 @@ abstract public class Comportamiento {
 	private double nivelActivacion = 0;
 	
 	/** Precondiciones para que este comportamiento sea activado. */
-	private Proposicion[] precondiciones = null;
+	private Vector<Proposicion> precondiciones = null;
 	
 	/** Metas activadas por este comportamiento. */
-	private Proposicion[] metas = null;
+	private Vector<Proposicion> metas = null;
 	
 	/** Metas desactivadas por este comportamiento. */
-	private Proposicion[] antimetas = null;
+	private Vector<Proposicion> antimetas = null;
   
 	public Comportamiento () { };
   
@@ -44,7 +46,7 @@ abstract public class Comportamiento {
 	 * Establece el conjunto de precondiciones de este comportamiento.
 	 * @param newVar Arreglo de proposiciones.
 	 */
-	private void setPrecondiciones (Proposicion[] newVar) {
+	private void setPrecondiciones (Vector<Proposicion> newVar) {
 		precondiciones = newVar;
 	}
 
@@ -52,7 +54,7 @@ abstract public class Comportamiento {
 	 * Obtiene el conjunto de precondiciones de este comportamiento.
 	 * @return Arreglo de proposiciones.
 	 */
-	public Proposicion[] getPrecondiciones() {
+	public Vector<Proposicion> getPrecondiciones() {
 		return precondiciones;
 	}
 
@@ -60,14 +62,14 @@ abstract public class Comportamiento {
 	 * Introduce las metas a las cuales facilita este comportamiento.
 	 * @param newVar Metas de este comportamiento.
 	 */
-	private void setMetas ( Proposicion[] newVar ) {
+	private void setMetas ( Vector<Proposicion> newVar ) {
 		metas = newVar;
 	}
 
 	/**
 	 * @return Arreglo de las metas que activa este comportamiento.
 	 */
-	public Proposicion[] getMetas ( ) {
+	public Vector<Proposicion> getMetas ( ) {
 		return metas;
 	}
 
@@ -75,7 +77,7 @@ abstract public class Comportamiento {
 	 * Introduce las metas las cuales son evitadas por este comportamiento.
 	 * @param newVar Arreglo de metas.
 	 */
-	private void setAntimetas ( Proposicion[] newVar ) {
+	private void setAntimetas ( Vector<Proposicion> newVar ) {
 		antimetas = newVar;
 	}
 
@@ -83,7 +85,7 @@ abstract public class Comportamiento {
 	 * Obtiene las metas que son inhibidas al ejecutarse este comportamiento.
 	 * @return Arreglo de metas inhibidas. 
 	 */
-	public Proposicion[] getAntimetas() {
+	public Vector<Proposicion> getAntimetas() {
 		return antimetas;
 	}
 

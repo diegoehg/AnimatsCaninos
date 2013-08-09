@@ -1,5 +1,6 @@
 package animatscaninos.agentes;
 
+import java.util.Collections;
 import java.util.Vector;
 
 import animatscaninos.comportamientos.Comportamiento;
@@ -238,9 +239,9 @@ public class Agente {
 	 * @param p Proposiciones.
 	 * @return Monto de energía unitario.
 	 */
-	private static double getMontoUnitario(double e, Comportamiento[] c, 
-			Proposicion[] p) {
-		return e * (1 / c.length) * (1 / p.length);
+	private static double getMontoUnitario(double e, Vector<Comportamiento> c, 
+			Vector<Proposicion> p) {
+		return e * (1 / c.size()) * (1 / p.size());
 	}
 	
 	/**
@@ -291,6 +292,48 @@ public class Agente {
 			if(getMetasProtegidas().contains(p))
 				energia += getMontoUnitario(getInhibicionPorMetaProtegida(), 
 						p.getInhibidores(), c.getAntimetas());
+		
+		return energia;
+	}
+	
+	/**
+	 * Calcula la cantidad de energía que un comportamiento distribuye hacia
+	 * un comportamiento predecesor.
+	 * @param x Comportamiento.
+	 * @param y Comportamiento predecesor.
+	 * @return Cantidad de energía distribuída.
+	 */
+	private double distribuyePredecesor(Comportamiento x, Comportamiento y) {
+		double energia = 0;
+		if(x.isEjecutable())
+			return 0;
+		
+		for(Proposicion p: x.getPrecondiciones())
+			if(!p.seCumple() && y.getMetas().contains(p))
+				energia += getMontoUnitario(x.getNivelActivacion(),
+						p.getPredecesores(),y.getMetas());
+		
+		return energia;
+	}
+	
+	/**
+	 * Calcula la cantidad de energía que un módulo de comportamiento distribuye
+	 * hacia un comportamiento sucesor.
+	 * @param x Comportamiento.
+	 * @param y Comportamiento sucesor.
+	 * @return Cantidad de energía distribuida.
+	 */
+	private double distribuyeSucesor(Comportamiento x, Comportamiento y) {
+		double energia = 0;
+		
+		if(!x.isEjecutable())
+			return 0;
+
+		for(Proposicion p: x.getMetas())
+			if(!p.seCumple() && y.getPrecondiciones().contains(p))
+				energia += getMontoUnitario(x.getNivelActivacion() * 
+						(getActivacionPorPrecondicion()/getActivacionPorMeta()), 
+						p.getSucesores(), y.getPrecondiciones());
 		
 		return energia;
 	}
