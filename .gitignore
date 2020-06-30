@@ -8,3 +8,6 @@ bin/
 .flexProperties
 .settings/
 .project
+
+# IntelliJ Artifacts
+.idea
