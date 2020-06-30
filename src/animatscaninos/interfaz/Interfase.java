@@ -14,18 +14,22 @@ package animatscaninos.interfaz;
  * 
  */
 
-import java.awt.Color;
-import animatscaninos.agentes.Animat;
 import animatscaninos.elementos.Mundo;
 
 
 public class Interfase extends javax.swing.JFrame {
+
+    private Mundo mundo;
     
     /** Creates new form Interfase */
     public Interfase() {
         initComponents();
     }
-    
+
+    public void setMundo(Mundo mundo) {
+        this.mundo = mundo;
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -376,46 +380,28 @@ public class Interfase extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCrearAnimatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearAnimatActionPerformed
-    	if(applet.iNumeroAnimats < Mundo.iMaxAnimats)
-    		applet.setCrearAnimat();
+        mundo.setCrearAnimat();
     }//GEN-LAST:event_jButtonCrearAnimatActionPerformed
 
     private void jButtonMatarAnimatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMatarAnimatActionPerformed
         // Verificar que existan animats en el mundo
-    	if(applet.iNumeroAnimats > 0) {
-    		applet.setMatarAnimat();
-    	}
+        mundo.setMatarAnimat();
     }//GEN-LAST:event_jButtonMatarAnimatActionPerformed
 
     private void jButtonPonerAlimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPonerAlimentoActionPerformed
-    	// Solo puede haber un numero máximo de elementos en el mundo
-    	if(applet.iNumeroAlimentos < Mundo.iMaxNumeroAlimentos)
-    		applet.SetCrearPlatoComidaAgua(true);
+    	mundo.SetCrearPlatoComidaAgua(true);
     }//GEN-LAST:event_jButtonPonerAlimentoActionPerformed
 
     private void jButtonQuitarAlimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitarAlimentoActionPerformed
-        int i = 0;
-    	boolean ExisteAlimento = false; 
-    	
-    	// Verifica que exista comida en el mundo
-    	for(i = 0; i<applet.iNumeroAlimentos; i++)
-    		ExisteAlimento = (applet.ColorAlimentosMundo[i] == Color.green) || ExisteAlimento;
-    	if (ExisteAlimento) applet.SetQuitarPlatoComidaAgua(true);
+        mundo.SetQuitarPlatoComidaAgua(mundo.hasPlatosComida());
     }//GEN-LAST:event_jButtonQuitarAlimentoActionPerformed
 
     private void jButtonPonerAguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPonerAguaActionPerformed
-    	if(applet.iNumeroAlimentos < Mundo.iMaxNumeroAlimentos)
-    		applet.SetCrearPlatoComidaAgua(false);
+    	mundo.SetCrearPlatoComidaAgua(false);
     }//GEN-LAST:event_jButtonPonerAguaActionPerformed
 
     private void jButtonQuitarAguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitarAguaActionPerformed
-    	int i = 0;
-    	boolean ExisteAgua = false; 
-    	
-    	// Verifica que exista agua en el mundo
-    	for(i = 0; i<applet.iNumeroAlimentos; i++)
-    		ExisteAgua = (applet.ColorAlimentosMundo[i] == Color.blue) || ExisteAgua;
-    	if (ExisteAgua) applet.SetQuitarPlatoComidaAgua(false);
+    	applet.SetQuitarPlatoComidaAgua(!mundo.hasPlatosAgua());
     }//GEN-LAST:event_jButtonQuitarAguaActionPerformed
 
     private void jButtonMostrarAnimatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarAnimatActionPerformed

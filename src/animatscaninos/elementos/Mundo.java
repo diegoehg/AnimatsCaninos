@@ -116,10 +116,10 @@ public class Mundo extends Applet implements Runnable {
 		Perro = new Animat[iMaxAnimats];  
 		iAnimatApuntado = 0;  				// Inicializa lista de Animats
 		iNumeroAnimats = 0;
-		PerroBorrado = new RoundRectangle2D.Double(0, 0, Animat.anchoAnimat + 2, Animat.alturaAnimat + 2, 4, 4);
+		PerroBorrado = new RoundRectangle2D.Double(0, 0, CuerpoAnimat.anchoAnimat + 2, CuerpoAnimat.alturaAnimat + 2, 4, 4);
 		
 		// Inicializa sombra de Animat
-		ShadowAnimat = new RoundRectangle2D.Double(0, 0, Animat.anchoAnimat, Animat.alturaAnimat, 4, 4);
+		ShadowAnimat = new RoundRectangle2D.Double(0, 0, CuerpoAnimat.anchoAnimat, CuerpoAnimat.alturaAnimat, 4, 4);
 		
 		start(); // Dispara el Thread timer
 		
@@ -144,12 +144,12 @@ public class Mundo extends Applet implements Runnable {
 					// Se verifica si el click esta contenido en un Animat para poder moverlo
 					while(i<iNumeroAnimats && AnimatNoApuntado){
 						// si el click del mouse esta contenido en un animat ...
-						if (Perro[i].Contorno.contains((double) e.getX(), (double) e.getY())){
+						if (Perro[i].getCuerpo().contains(e.getX(), e.getY())){
 							Perro[i].stop(); // Se detiene el thread
 							iAnimatApuntado = i; 	// se guarda el Animat que se movera,
 							AnimatNoApuntado = false; // se indica que se apunto a un Animat
-							lastmx = Perro[i].Contorno.getX() - (double)e.getX(); // se guarda la posicion del animat con respecto al puntero del mouse  
-							lastmy = Perro[i].Contorno.getY() - (double)e.getY();
+							lastmx = Perro[i].getCuerpo().getX() - e.getX(); // se guarda la posicion del animat con respecto al puntero del mouse
+							lastmy = Perro[i].getCuerpo().getY() - e.getY();
 							updateLocation(e); // se actualiza la bandera y la grafica
 							bClickAfuera = false;
 							bAnimatMovido = true;
@@ -162,7 +162,7 @@ public class Mundo extends Applet implements Runnable {
 				// Checa si el mouse estaba dentro del area del rectangulo al momento de soltar
 				// el botón y si ya había sido creado
 				if (iNumeroAnimats > 0) {
-				if (Perro[iAnimatApuntado].Contorno.contains((double) e.getX(), (double) e.getY()) && !bCrearAnimat) {
+				if (Perro[iAnimatApuntado].getCuerpo().contains(e.getX(), e.getY()) && !bCrearAnimat) {
 					updateLocation(e);   // Si fue así, se actualiza la bandera
 					bClickAfuera = true;
 					bAnimatMovido = false;
@@ -181,7 +181,7 @@ public class Mundo extends Applet implements Runnable {
 					lastShadowX = ShadowAnimat.getX(); // Guarda las coordenadas para poder borrar la sombra posteriormente
 					lastShadowY = ShadowAnimat.getY();
 					// Recoloca la sombra
-					ShadowAnimat.setRoundRect(e.getX() - (Animat.anchoAnimat/2), e.getY() - (Animat.alturaAnimat/2), Animat.anchoAnimat, Animat.alturaAnimat, 4, 4);
+					ShadowAnimat.setRoundRect(e.getX() - (CuerpoAnimat.anchoAnimat/2), e.getY() - (CuerpoAnimat.alturaAnimat/2), CuerpoAnimat.anchoAnimat, CuerpoAnimat.alturaAnimat, 4, 4);
 				}
 			}
 		});
@@ -199,7 +199,7 @@ public class Mundo extends Applet implements Runnable {
 		if(bCrearAnimat){
 			g2d.setPaint(Color.white);  // Borra la sombra del animat si esta siendo creado apenas
 			g2d.setStroke(BordeBorrarShadow);
-			g2d.draw(new RoundRectangle2D.Double(lastShadowX,lastShadowY,Animat.anchoAnimat,Animat.alturaAnimat,4,4));
+			g2d.draw(new RoundRectangle2D.Double(lastShadowX,lastShadowY,CuerpoAnimat.anchoAnimat,CuerpoAnimat.alturaAnimat,4,4));
 		}
 		
 		if(bBorrarComidaAgua){			// Borra el plato de comida o de agua que fue
@@ -216,14 +216,14 @@ public class Mundo extends Applet implements Runnable {
 		
 		if (bAnimatMovido) {
 			g2d.setPaint(Color.white);  // Borra el Animat que ha sido movido
-			BorrarAnimat = new RoundRectangle2D.Double(lastx-2, lasty-2, Animat.anchoAnimat+4, Animat.alturaAnimat+4, 4, 4);
+			BorrarAnimat = new RoundRectangle2D.Double(lastx-2, lasty-2, CuerpoAnimat.anchoAnimat+4, CuerpoAnimat.alturaAnimat+4, 4, 4);
 			g2d.fill(BorrarAnimat);
 		}
 		
 		for(i = 0; i<iNumeroAnimats; i++){
-			if (Perro[i].bDesplazandose) {
+			if (Perro[i].getCuerpo().isDesplazandose()) {
 				g2d.setPaint(Color.white);           	// Se borran todos los Animats que estan
-				g2d.fill(Perro[i].PosicionAnterior);    // desplazandose
+				g2d.fill(Perro[i].getCuerpo().getPosicionAnterior());    // desplazandose
 			}
 		}
 		
@@ -236,19 +236,12 @@ public class Mundo extends Applet implements Runnable {
 		}
 		
 		for(i = 0; i<iNumeroAnimats; i++){
-			if (Perro[i].dameLadrando() || Perro[i].damePeleando())
-				g2d.setPaint(Animat.ColorAnimatLadrando);
-			else if (Perro[i].dameHuyendo()) {
-				g2d.setPaint(Animat.ColorAnimatHuyendo);
-			}
-			else {
-				g2d.setPaint(Animat.ColorAnimat);
-			}
+			g2d.setPaint(Perro[i].getCuerpo().getColor());
 				       // Se vuelven a imprimir todos los Animats
-			g2d.fill(Perro[i].Contorno);                // que estan instanciados
-	        g2d.setPaint(Animat.ColorBordeAnimat);
-	        g2d.setStroke(Animat.BordeAnimat);
-	        g2d.draw(Perro[i].Contorno);
+			g2d.fill(Perro[i].getCuerpo().getContorno());                // que estan instanciados
+	        g2d.setPaint(CuerpoAnimat.ColorBordeAnimat);
+	        g2d.setStroke(CuerpoAnimat.BordeAnimat);
+	        g2d.draw(Perro[i].getCuerpo().getContorno());
 		}
 		
         if(bCrearAnimat){
@@ -260,10 +253,10 @@ public class Mundo extends Applet implements Runnable {
 
 	public void updateLocation (MouseEvent e) {
 		
-		lastx = Perro[iAnimatApuntado].Contorno.getX();  // Guarda la posición actual del Animat
-		lasty = Perro[iAnimatApuntado].Contorno.getY();
+		lastx = Perro[iAnimatApuntado].getCuerpo().getContorno().getX();  // Guarda la posición actual del Animat
+		lasty = Perro[iAnimatApuntado].getCuerpo().getContorno().getY();
 		// Se obtiene la nueva posicion del Animat
-		Perro[iAnimatApuntado].setPosicion(lastmx + (double)e.getX(), lastmy + (double)e.getY());
+		Perro[iAnimatApuntado].getCuerpo().setPosicion(lastmx + e.getX(), lastmy + e.getY());
 		
 		//repaint();
 	}
@@ -275,9 +268,27 @@ public class Mundo extends Applet implements Runnable {
 	/*
 	 * 		METODOS PARA MANEJAR LOS ELEMENTOS DEL MUNDO
 	 *  */
-	
+
+	public boolean hasPlatosComida() {
+		for (Color colorPlato: ColorAlimentosMundo)
+			if (colorPlato == Color.green)
+				return true;
+		return false;
+	}
+
+	public boolean hasPlatosAgua() {
+		for(Color colorPlato: ColorAlimentosMundo)
+			if(colorPlato == Color.blue)
+				return true;
+
+		return false;
+	}
+
 	// Crear un plato de comida o de agua: si id = true, comida, agua en otro caso
 	private void CrearPlatoComidaAgua(MouseEvent e, boolean id) {
+		if(iNumeroAlimentos >= iMaxNumeroAlimentos)
+			return;
+
 		AlimentosMundo[iNumeroAlimentos] = new Ellipse2D.Double((double)e.getX() - (dimensionAguaComida/2),(double)e.getY() - (dimensionAguaComida/2),30,30);
 		if (id) {
 			ColorAlimentosMundo[iNumeroAlimentos] = colorComida;
@@ -354,20 +365,23 @@ public class Mundo extends Applet implements Runnable {
 	 */
 	
 	// Crea un nuevo Animat
-	private void CrearAnimat(MouseEvent e) {
+	public void CrearAnimat(MouseEvent e) {
+		if(iNumeroAnimats >= iMaxAnimats)
+			return;
+
 		int i;
 		boolean bAnimatNoApuntado = true;
 		
 		// Verificamos que el puntero del mouse no se encuentre apuntando encima de otro
 		// Animat
 		for(i = 0; i < iNumeroAnimats; i++) 
-			bAnimatNoApuntado = !Perro[i].Contorno.contains((double)e.getX(), (double)e.getY()) 
+			bAnimatNoApuntado = !Perro[i].getCuerpo().contains(e.getX(), e.getY())
 								&& bAnimatNoApuntado;
 		
 		
 		// Si la condicion anterior se cumple, se crea un animat en esa posicion
 		if (bAnimatNoApuntado) {
-			Perro[iNumeroAnimats] = new Animat((double)e.getX() - (Animat.anchoAnimat/2), (double)e.getY() - (Animat.alturaAnimat/2), this, Ventana);
+			Perro[iNumeroAnimats] = new Animat(e.getX() - (CuerpoAnimat.anchoAnimat/2), e.getY() - (CuerpoAnimat.alturaAnimat/2), this, Ventana);
 			Perro[iNumeroAnimats].start();
 			iNumeroAnimats++;
 			bCrearAnimat = false;
@@ -382,12 +396,15 @@ public class Mundo extends Applet implements Runnable {
 	
 	// Elimina el Animat seleccionado
 	private void MatarAnimat(MouseEvent e) {
+		if(iNumeroAnimats <= 0)
+			return;
+
 		int i;
 		for(i = 0; i < iNumeroAnimats; i++) {
-			if(Perro[i].Contorno.contains((double)e.getX(), (double)e.getY())) {
+			if(Perro[i].getCuerpo().contains(e.getX(), e.getY())) {
 				Perro[i].stop();
 				if(i == iAnimatApuntado) iAnimatApuntado = 0;
-				PerroBorrado.setRoundRect(Perro[i].Contorno.getX() - 2, Perro[i].Contorno.getY() - 2, Animat.anchoAnimat + 4, Animat.alturaAnimat + 4, 4, 4);
+				PerroBorrado.setRoundRect(Perro[i].getCuerpo().getContorno().getX() - 2, Perro[i].getCuerpo().getContorno().getY() - 2, CuerpoAnimat.anchoAnimat + 4, CuerpoAnimat.alturaAnimat + 4, 4, 4);
 				Perro[i] = Perro[iNumeroAnimats-1];
 				Perro[iNumeroAnimats - 1] = null;
 				iNumeroAnimats--;
@@ -405,11 +422,10 @@ public class Mundo extends Applet implements Runnable {
 	
 	private void MonitorearAnimat(MouseEvent e) {
 		int i;
-		for(i = 0; i < iNumeroAnimats; i++) {
-			Perro[i].setMostrarVentana(false);
-			if(Perro[i].Contorno.contains((double)e.getX(), (double)e.getY())) {
-				Perro[i].setMostrarVentana(true);
-				iAnimatApuntado = i;
+		for(Animat animat:Perro) {
+			if (animat.getCuerpo().contains(e.getX(), e.getY())) {
+				animat.setInterfase(Ventana);
+				break;
 			}
 		}
 		bMonitorearAnimat = false;

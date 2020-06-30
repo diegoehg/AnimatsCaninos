@@ -1,5 +1,9 @@
 package animatscaninos.agentes;
 
+import animatscaninos.elementos.CuerpoAnimat;
+import animatscaninos.elementos.Mundo;
+import animatscaninos.interfaz.Interfase;
+
 /**
  * Esta clase representa al agente Animat. Contiene el modelo de toma de
  * decisiones del Animat y ejecuta los comportamientos.
@@ -7,8 +11,22 @@ package animatscaninos.agentes;
  * @author Diego Enrique Hernández González.
  *
  */
-public class Animat implements Runnable {
-	
+public class Animat extends Thread {
+	private CuerpoAnimat cuerpo;
+
+	public Animat() {}
+
+	public Animat(double x, double y, Mundo mundo, Interfase interfaz) {
+		cuerpo = new CuerpoAnimat();
+		cuerpo.setPosicion(x, y);
+		cuerpo.setMundo(mundo);
+		cuerpo.setInterfaz(interfaz);
+	}
+
+	public CuerpoAnimat getCuerpo() {
+		return cuerpo;
+	}
+
 	/**
 	 * TODO Definir cómo se va a ejecutar este algoritmo.
 	 */
@@ -134,13 +152,18 @@ public class Animat implements Runnable {
 	}
 	
 	/**
-	 * Algoritmo de decisi�n del comportamiento, basado en el mecanismo de
-	 * elecci�n de Pattie Maes.
+	 * Algoritmo de decisión del comportamiento, basado en el mecanismo de
+	 * elección de Pattie Maes.
 	 */
 	private void decideComportamiento () {
-		/* Aqu� va el algoritmo de decisi�n de comportamiento */
+		/* Aquí va el algoritmo de decisión de comportamiento */
 	}
-	
-	
-	
+
+	private Interfase interfase;
+
+	public void setInterfase(Interfase interfase) {
+	    // TODO Aquí se van a escribir los datos del animat monitoreado
+		this.interfase = interfase;
+	}
+
 } // Fin de la clase Animat
