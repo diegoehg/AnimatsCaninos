@@ -6,19 +6,23 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import interfaz.Interfase;
 
-/** Clase Animat: Subclase de Component para el soporte de los MouseListener, e implementa
- *  Runnable para el soporte de Treahds */
+/**
+ * 	Clase Animat: Subclase de Component para el soporte de los MouseListener, e implementa
+ *  Runnable para el soporte de Treahds
+ *
+ *  @author Diego Hdez.
+ */
 public class Animat implements Runnable {
 	
-	/** Implementación del Animat: 
-	 *  Esta la implementación de atributos y métodos esenciales para la clase Animat */
-	
+	public final static double ALTURA_ANIMAT = 35;
+
+	public final static double ANCHO_ANIMAT = 50;
+
+	public final static Color COLOR_ANIMAT = new Color(173,107,30); // Color cafe obscuro en RGB
+
 	// Características físicas
-	private RoundRectangle2D Contorno, PosicionAnterior;
+	private RoundRectangle2D contorno, posicionAnterior;
 	private double PosX, PosY, LastPosX, LastPosY; // Posicion del Animat
-	private final static double alturaAnimat = 35;
-	private final static double anchoAnimat = 50;
-	private final static Color ColorAnimat = new Color(173,107,30); // Color cafe obscuro en RGB
 	final static Color ColorAnimatLadrando = new Color(193,11,11);  // Color Rojo Sangre
 	final static Color ColorAnimatHuyendo = new Color(170,31,210); // Color morado
 	final static Color ColorBordeAnimat = Color.black;
@@ -35,14 +39,14 @@ public class Animat implements Runnable {
 	// objeto Mundo que lo contiene. Además, se setea la velocidad inicial y
 	// el objeto Posicion Anterior.
 	public Animat(double x, double y, Mundo m, Interfase v){
-		Contorno = new RoundRectangle2D.Double(x,y,anchoAnimat,alturaAnimat,4,4);
+		contorno = new RoundRectangle2D.Double(x,y, ANCHO_ANIMAT, ALTURA_ANIMAT,4,4);
 		PosX = x;
 		PosY = y;
 		Mnd = m;
 		Vent = v;
 		VelocidadDesplazamiento = 0.25;
 		ComportamientoElegido = 1;
-		PosicionAnterior = new RoundRectangle2D.Double(0,0,anchoAnimat,alturaAnimat,4,4);
+		posicionAnterior = new RoundRectangle2D.Double(0,0, ANCHO_ANIMAT, ALTURA_ANIMAT,4,4);
 		bDesplazandose = false;
 		DireccionComida = 0;
 		DireccionAgua = 0;
@@ -70,10 +74,15 @@ public class Animat implements Runnable {
 		UmbralPelear = 100;
 		UmbralHuir = 100;
 	}
-	
-	
-	
-	
+
+	public RoundRectangle2D getContorno() {
+		return contorno;
+	}
+
+	public RoundRectangle2D getPosicionAnterior() {
+		return posicionAnterior;
+	}
+
 	/*
 	 *  IMPLEMENTACION DEL THREAD
 	 */
@@ -119,7 +128,7 @@ public class Animat implements Runnable {
 	
 	// Setea las nuevas coordenadas del Animat
 	public void setPosicion(double x, double y){
-		Contorno.setRoundRect(x, y, anchoAnimat, alturaAnimat, 4, 4);
+		contorno.setRoundRect(x, y, ANCHO_ANIMAT, ALTURA_ANIMAT, 4, 4);
 		PosX = x;
 		PosY = y;
 	}
@@ -133,7 +142,7 @@ public class Animat implements Runnable {
 		double despX, despY;
 		
 		// Guardar posición actual
-		PosicionAnterior.setRoundRect(PosX - 4.0, PosY - 4.0, anchoAnimat + 8, alturaAnimat + 8, 4.0, 4.0);
+		posicionAnterior.setRoundRect(PosX - 4.0, PosY - 4.0, ANCHO_ANIMAT + 8, ALTURA_ANIMAT + 8, 4.0, 4.0);
 		LastPosX = PosX;  // Guardando variables
 		LastPosY = PosY;
 		
@@ -247,9 +256,9 @@ public class Animat implements Runnable {
 		//boolean CondAntAgresion = false;
 		
 		// Calcula el radio de distancia a los alimentos existentes
-		for(i = 0; i < Mnd.iNumeroAlimentos; i++) {
-			X = (Mnd.AlimentosMundo[i].getX() + (Mnd.AlimentosMundo[i].getWidth()/2)) - (PosX + (anchoAnimat/2));
-			Y = (Mnd.AlimentosMundo[i].getY() + (Mnd.AlimentosMundo[i].getHeight()/2)) - (PosY + (alturaAnimat/2));
+		for(i = 0; i < Mnd.getNumeroPlatos(); i++) {
+			X = (Mnd.AlimentosMundo[i].getX() + (Mnd.AlimentosMundo[i].getWidth()/2)) - (PosX + (ANCHO_ANIMAT /2));
+			Y = (Mnd.AlimentosMundo[i].getY() + (Mnd.AlimentosMundo[i].getHeight()/2)) - (PosY + (ALTURA_ANIMAT /2));
 			rad = Math.sqrt(Math.pow(X, 2.0) + Math.pow(Y, 2.0));
 			
 			// Determinan la distancia del plato de agua o comida más cercanos
@@ -648,7 +657,4 @@ public class Animat implements Runnable {
 		case 6: Huir(); break;
 		}
 	}
-	
-	
-	
-} // Fin de la clase Animat
+}
