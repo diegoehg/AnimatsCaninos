@@ -9,11 +9,11 @@ Todos los comportamientos se encuentran ligados por medio de una red, y cada enl
 
 El mecanismo planteado por Maes está inspirado en cómo se comportan los animales, con el objetivo de modelar la propiedad de la emergencia de los comportamientos.
 
-Este proyecto hace uso del esquema de Maes para modelar la conducta de unos animats que simulan los comportamientos de unos perros. Los animats aquí implementados buscan comida y agua, y cuando se encuentran con otro, se enfurecen y llegan a pelear o a huir, si el miedo se activa con más nivel que la ira.
+Este proyecto hacía uso del esquema de Maes para modelar la conducta de unos animats que simulan los comportamientos de unos perros. Los animats aquí implementados buscan comida y agua, y cuando se encuentran con otro, se enfurecen y llegan a pelear o a huir, si el miedo se activa con más nivel que la ira.
 
-Es un sistema bastante pequeño y sencillo, ya que fue realizado para una tarea de una asignatura de Agentes computacionales. Además, tiene varios bugs aún, así como el código está desordenado.
+Es un sistema bastante pequeño y sencillo, ya que fue realizado para una tarea de una asignatura de Agentes computacionales. Tiene varios bugs aún, así como el código está desordenado. Esta fue la versión que pude recuperar del proyecto, hay partes del código que se han perdido.
 
-El objetivo de recuperar este proyecto es mejorar el esquema planteado por Maes, así como incorporar otros mecanismos de selección de comportamiento. Además, se pretende incorporar emociones sintéticas a los animats de este proyecto, basándose en las ideas planteadas por Rosalynd Picard[3]. La fase en la que se encuentra es en el análisis y diseño del sistema.
+El objetivo de recuperar este proyecto era mejorar el esquema planteado por Maes, así como incorporar otros mecanismos de selección de comportamiento. En la actualidad, solo pretendo tener una base de código la cual limpiar y aplicar lo que he aprendido durante los años. La primer tarea es actualizarlo y tener una versión funcional.
 
 Cualquier comentario o contribución es bienvenido :)
 
@@ -23,5 +23,3 @@ Referencias bibliográficas.
 
 [1] Maes, P. "How to do the right thing." _Connection Science_ 1(3):291-323.
 [2] Pattie M. 1991. "A bottom-up mechanism for behavior selection in an artificial creature". En _Proceedings of the first international conference on simulation of adaptive behavior on From animals to animats_, Jean-Arcady Meyer and Stewart W. Wilson (Eds.). MIT Press, USA, 238-246.
-
-[3] Picard, R. W. 1997. _Affective Computing_. MIT Press, USA.
