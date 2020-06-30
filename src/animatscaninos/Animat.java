@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
-import interfaz.Interfase;
+import animatscaninos.interfaz.Interfase;
 
 /**
  * 	Clase Animat: Subclase de Component para el soporte de los MouseListener, e implementa

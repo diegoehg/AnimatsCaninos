@@ -1,4 +1,4 @@
-package interfaz;
+package animatscaninos.interfaz;
 
 /*
  * Interfase.java
