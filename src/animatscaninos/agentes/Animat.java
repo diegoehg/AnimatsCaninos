@@ -1,9 +1,10 @@
-package animatscaninos;
+package animatscaninos.agentes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
+
 import animatscaninos.interfaz.Interfase;
 
 /**

@@ -14,7 +14,7 @@ package animatscaninos.interfaz;
  * 
  */
 
-import animatscaninos.Mundo;
+import animatscaninos.agentes.Mundo;
 
 
 public class Interfase extends javax.swing.JFrame {
