@@ -30,5 +30,5 @@ dependencies {
 
 application {
     // Define the main class for the application
-    mainClassName = "animatscaninos.App"
+    mainClassName = "animatscaninos.interfaz.Interfase"
 }
