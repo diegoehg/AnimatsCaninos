@@ -6,13 +6,13 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
 /**
- * Corresponde a la parte gr�fica del Animat. Contiene las caracter�sticas
- * f�sicas de este.
- * @author Diego Enrique Hern�ndez Gonz�lez.
+ * Corresponde a la parte gráfica del Animat. Contiene las características
+ * físicas de este.
+ * @author Diego Enrique Hernández González.
  *
  */
 public class CuerpoAnimat implements Elemento {
-	// Caracter�sticas f�sicas
+	// Características físicas
 	private RoundRectangle2D Contorno, PosicionAnterior;
 	private double PosX, PosY, LastPosX, LastPosY; // Posicion del Animat
 	private final static double alturaAnimat = 35;
@@ -45,7 +45,7 @@ public class CuerpoAnimat implements Elemento {
 	private void moverse(double Angulo, boolean Direccion) {
 		double despX, despY;
 		
-		// Guardar posición actual
+		// Guardar posiciÃ³n actual
 		PosicionAnterior.setRoundRect(PosX - 4.0, PosY - 4.0, anchoAnimat + 8, alturaAnimat + 8, 4.0, 4.0);
 		LastPosX = PosX;  // Guardando variables
 		LastPosY = PosY;
@@ -54,8 +54,8 @@ public class CuerpoAnimat implements Elemento {
 		despX = VelocidadDesplazamiento * Math.cos(Angulo);
 		despY = VelocidadDesplazamiento * Math.sin(Angulo);
 		if(!Direccion) {
-			despX = -despX;		// La función arcotangente de Java solo soporta angulos
-			despY = -despY;		// entre PI/2 y -PI/2, de 90° a -90°
+			despX = -despX;		// La funciÃ³n arcotangente de Java solo soporta angulos
+			despY = -despY;		// entre PI/2 y -PI/2, de 90Â° a -90Â°
 		}
 		setPosicion(PosX + despX, PosY + despY);
 		bDesplazandose = true;		
@@ -63,7 +63,7 @@ public class CuerpoAnimat implements Elemento {
 	
 	
 	/**
-	 *  Son las direcciones al plato de comida o de agua o al Animat más cercanos
+	 *  Son las direcciones al plato de comida o de agua o al Animat mÃ¡s cercanos
 	 */
 	double DireccionComida, DireccionAgua, DireccionAnimat, DistanciaComida, DistanciaAgua, 
 		DistanciaAnimat;
