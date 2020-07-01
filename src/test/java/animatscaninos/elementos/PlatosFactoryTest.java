@@ -20,4 +20,13 @@ public class PlatosFactoryTest {
         assertEquals(Y_DEFAULT, plato.getContorno().getCenterY(), DELTA_DEFAULT);
         assertEquals(Plato.COLOR_COMIDA, plato.getColor());
     }
+
+    @Test
+    public void gettingPlatoAgua() {
+        Plato plato = PlatosFactory.getPlatoAgua(X_DEFAULT, Y_DEFAULT);
+        assertTrue(plato.getContorno().contains(X_DEFAULT, Y_DEFAULT));
+        assertEquals(X_DEFAULT, plato.getContorno().getCenterX(), DELTA_DEFAULT);
+        assertEquals(Y_DEFAULT, plato.getContorno().getCenterY(), DELTA_DEFAULT);
+        assertEquals(Plato.COLOR_AGUA, plato.getColor());
+    }
 }

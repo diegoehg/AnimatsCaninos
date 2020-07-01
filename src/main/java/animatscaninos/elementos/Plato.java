@@ -9,9 +9,11 @@ import java.awt.geom.Ellipse2D;
  * @author Diego Hdez.
  */
 class Plato {
-    private final static double DIMENSION_PLATO = 30;
+    final static Color COLOR_AGUA = Color.blue;
 
     final static Color COLOR_COMIDA = Color.green;
+
+    private final static double DIMENSION_PLATO = 30;
 
     private Ellipse2D contorno;
 
