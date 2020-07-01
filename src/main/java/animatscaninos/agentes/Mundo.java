@@ -3,7 +3,6 @@ package animatscaninos.agentes;
 import java.applet.Applet;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
@@ -11,7 +10,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
+import animatscaninos.elementos.Plato;
+import animatscaninos.elementos.PlatosFactory;
 import animatscaninos.interfaz.Interfase;
 
 /** Applet donde esta implementado el mundo que rodea a los Animats y que además
@@ -32,6 +35,10 @@ public class Mundo extends Applet implements Runnable {
 	Ellipse2D[] contornoPlatos;
 
 	Color[] colorPlatos;
+
+	private List<Plato> platosComida = new ArrayList<>();
+
+	private List<Plato> platosAgua = new ArrayList<>();
 
 	private int numeroPlatos;
 
@@ -61,10 +68,6 @@ public class Mundo extends Applet implements Runnable {
 	final static long serialVersionUID = 1;
 	
 	private boolean simulacionActiva = false;
-
-	public int getNumeroPlatos() {
-		return numeroPlatos;
-	}
 
 	/**
 	 * Inicializacion de condiciones del mundo de los Animats 
@@ -276,6 +279,18 @@ public class Mundo extends Applet implements Runnable {
 	 * 		METODOS PARA MANEJAR LOS ELEMENTOS DEL MUNDO
 	 *  */
 
+	public int getNumeroPlatos() {
+		return numeroPlatos;
+	}
+
+	int getNumeroPlatosComida() {
+		return platosComida.size();
+	}
+
+	int getNumeroPlatosAgua() {
+		return platosAgua.size();
+	}
+
 	// Crear un plato de comida o de agua: si id = true, comida, agua en otro caso
 	private void CrearPlatoComidaAgua(MouseEvent e, boolean id) {
 		contornoPlatos[numeroPlatos] = new Ellipse2D.Double((double)e.getX() - (DIMENSION_PLATO /2),(double)e.getY() - (DIMENSION_PLATO /2),30,30);
@@ -290,18 +305,20 @@ public class Mundo extends Applet implements Runnable {
 		numeroPlatos++;
 	}
 
+	void putPlatoComida(double centerX, double centerY) {
+	    platosComida.add(PlatosFactory.getPlatoComida(centerX, centerY));
+	}
+
+	void putPlatoAgua(double centerX, double centerY) {
+	    platosAgua.add(PlatosFactory.getPlatoAgua(centerX, centerY));
+	}
+
 	public void setCrearPlatoComida() {
 		bPonerComida = numeroPlatos < NUMERO_MAXIMO_PLATOS;
 	}
 
 	public void setCrearPlatoAgua() {
 		bPonerAgua = numeroPlatos < NUMERO_MAXIMO_PLATOS;
-	}
-	
-	// Le indica al mundo la creacion del plato de comida si id es true o de agua en otro caso
-	public void SetCrearPlatoComidaAgua(boolean id) {
-		if (id) bPonerComida = true;
-		else bPonerAgua = true;
 	}
 	
 	// Elimina platos de agua y de comida; si id = true de comida, de agua en otro caso
@@ -326,6 +343,21 @@ public class Mundo extends Applet implements Runnable {
 				else bQuitarAgua = false;
 			}
 		}
+	}
+
+	void removePlatoComida(double x, double y) {
+		removePlatoFromList(x, y, platosComida);
+	}
+
+	void removePlatoAgua(double x, double y) {
+	   removePlatoFromList(x, y, platosAgua);
+	}
+
+	private void removePlatoFromList(double x, double y, List<Plato> platos) {
+		platos.stream()
+				.filter(p -> p.getContorno().contains(x, y))
+				.findAny()
+				.ifPresent(p -> platos.remove(p));
 	}
 
 	public boolean hasPlatos(Color alimento) {
