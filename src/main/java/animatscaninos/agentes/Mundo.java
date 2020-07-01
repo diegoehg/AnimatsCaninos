@@ -225,14 +225,14 @@ public class Mundo extends Applet implements Runnable {
 			BorrarAnimat = new RoundRectangle2D.Double(lastx-2, lasty-2, Animat.ANCHO_ANIMAT +4, Animat.ALTURA_ANIMAT +4, 4, 4);
 			g2d.fill(BorrarAnimat);
 		}
-		
-		for(i = 0; i<iNumeroAnimats; i++){
-			if (Perro[i].bDesplazandose) {
-				g2d.setPaint(Color.white);           	// Se borran todos los Animats que estan
-				g2d.fill(Perro[i].getPosicionAnterior());    // desplazandose
+
+		for(Animat perro:Perro) {
+			if(perro.isDesplazandose()) {
+				g2d.setPaint(Color.white);
+				g2d.fill(perro.getPosicionAnterior());
 			}
 		}
-		
+
 		for(i = 0; i< numeroPlatos; i++) {		// Imprime los alimentos de los Animats
 			g2d.setPaint(ColorAlimentosMundo[i]);
 			g2d.fill(AlimentosMundo[i]);
@@ -243,17 +243,17 @@ public class Mundo extends Applet implements Runnable {
 		
 		for(i = 0; i<iNumeroAnimats; i++){
 			if (Perro[i].dameLadrando() || Perro[i].damePeleando())
-				g2d.setPaint(Animat.ColorAnimatLadrando);
+				g2d.setPaint(Animat.COLOR_ANIMAT_LADRANDO);
 			else if (Perro[i].dameHuyendo()) {
-				g2d.setPaint(Animat.ColorAnimatHuyendo);
+				g2d.setPaint(Animat.COLOR_ANIMAT_HUYENDO);
 			}
 			else {
 				g2d.setPaint(Animat.COLOR_ANIMAT);
 			}
 				       // Se vuelven a imprimir todos los Animats
 			g2d.fill(Perro[i].getContorno());                // que estan instanciados
-	        g2d.setPaint(Animat.ColorBordeAnimat);
-	        g2d.setStroke(Animat.BordeAnimat);
+	        g2d.setPaint(Animat.COLOR_BORDE_ANIMAT);
+	        g2d.setStroke(Animat.BORDE_ANIMAT);
 	        g2d.draw(Perro[i].getContorno());
 		}
 		
@@ -430,9 +430,9 @@ public class Mundo extends Applet implements Runnable {
 	private void MonitorearAnimat(MouseEvent e) {
 		int i;
 		for(i = 0; i < iNumeroAnimats; i++) {
-			Perro[i].setMostrarVentana(false);
-			if(Perro[i].getContorno().contains((double)e.getX(), (double)e.getY())) {
-				Perro[i].setMostrarVentana(true);
+			Perro[i].setImprimirDatos(false);
+			if(Perro[i].getContorno().contains(e.getX(), e.getY())) {
+				Perro[i].setImprimirDatos(true);
 				iAnimatApuntado = i;
 			}
 		}

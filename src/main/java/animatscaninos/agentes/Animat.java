@@ -21,34 +21,41 @@ public class Animat implements Runnable {
 
 	public final static Color COLOR_ANIMAT = new Color(173,107,30); // Color cafe obscuro en RGB
 
-	// Características físicas
+	public final static Color COLOR_ANIMAT_LADRANDO = new Color(193,11,11);  // Color Rojo Sangre
+
+	public final static Color COLOR_ANIMAT_HUYENDO = new Color(170,31,210); // Color morado
+
+	public final static Color COLOR_BORDE_ANIMAT = Color.black;
+
+	public final static BasicStroke BORDE_ANIMAT = new BasicStroke(2.0f);
+
 	private RoundRectangle2D contorno, posicionAnterior;
-	private double PosX, PosY, LastPosX, LastPosY; // Posicion del Animat
-	final static Color ColorAnimatLadrando = new Color(193,11,11);  // Color Rojo Sangre
-	final static Color ColorAnimatHuyendo = new Color(170,31,210); // Color morado
-	final static Color ColorBordeAnimat = Color.black;
-	final static BasicStroke BordeAnimat = new BasicStroke(2.0f);
-	private double VelocidadDesplazamiento;
-	Thread Vida;
-	Mundo Mnd; // Apuntador al objeto Mundo que contiene a los Animats
-	Interfase Vent;
-	public boolean bDesplazandose, bMostrarVentana;
+
+	private double x, y; // Posicion del Animat
+
+	private double velocidadDesplazamiento;
+
+	private boolean alive = false;
+
+	private Mundo mundo;
+
+	private Interfase ventana;
+
+	private boolean desplazandose, imprimirDatos;
 	
-	final static long serialVersionUID = 0; // TODO Investigar que es el serialVersionUID
-		
 	// Constructor. Se le pasan las coordenadas del nuevo Animat y la referencia al
 	// objeto Mundo que lo contiene. Además, se setea la velocidad inicial y
 	// el objeto Posicion Anterior.
-	public Animat(double x, double y, Mundo m, Interfase v){
+	public Animat(double x, double y, Mundo mundo, Interfase ventana){
 		contorno = new RoundRectangle2D.Double(x,y, ANCHO_ANIMAT, ALTURA_ANIMAT,4,4);
-		PosX = x;
-		PosY = y;
-		Mnd = m;
-		Vent = v;
-		VelocidadDesplazamiento = 0.25;
+		this.x = x;
+		this.y = y;
+		this.mundo = mundo;
+		this.ventana = ventana;
+		velocidadDesplazamiento = 0.25;
 		ComportamientoElegido = 1;
 		posicionAnterior = new RoundRectangle2D.Double(0,0, ANCHO_ANIMAT, ALTURA_ANIMAT,4,4);
-		bDesplazandose = false;
+		desplazandose = false;
 		DireccionComida = 0;
 		DireccionAgua = 0;
 		DireccionAnimat = 0;
@@ -84,21 +91,18 @@ public class Animat implements Runnable {
 		return posicionAnterior;
 	}
 
-	/*
-	 *  IMPLEMENTACION DEL THREAD
-	 */
 	public void start() {
-		Vida = new Thread(this);
-		Vida.start();
+		Thread vida = new Thread(this);
+		vida.start();
+		alive = true;
 	}
 	
 	// TODO Falta especificar cuales son los metodos que se invocaran durante el
 	// Thread
 	public void run() {
-		Thread me = Thread.currentThread();
-		while(me == Vida) {
+		while(alive) {
 			try {
-				Thread.currentThread().sleep(10);
+				Thread.sleep(10);
 			}
 			catch (InterruptedException e) {
 				
@@ -107,21 +111,18 @@ public class Animat implements Runnable {
 			EjecutarComportamiento();
 			CalculoNivelActivacion();
 			CiclosdeEsperaSeleccion++;
-			
 		}
-		
 	}
 	
 	public void stop() {
-		Vida = null;
-		
+		alive = false;
 	}
 	
 	/*
 	 * / FUNCIONES MISCELANEAS
 	 */
-	public double dameX(){ return PosX; } // Regresan X y Y respectivamente
-	public double dameY(){ return PosY; }
+	public double getX(){ return x; }
+	public double getY(){ return y; }
 	
 	public boolean dameLadrando(){ return Ladrando; } // Regresa estado interno
 	public boolean damePeleando(){ return Peleando; }
@@ -130,12 +131,16 @@ public class Animat implements Runnable {
 	// Setea las nuevas coordenadas del Animat
 	public void setPosicion(double x, double y){
 		contorno.setRoundRect(x, y, ANCHO_ANIMAT, ALTURA_ANIMAT, 4, 4);
-		PosX = x;
-		PosY = y;
+		this.x = x;
+		this.y = y;
 	}
-	
-	public void setMostrarVentana(boolean V) {
-		bMostrarVentana = V;
+
+	public boolean isDesplazandose() {
+		return desplazandose;
+	}
+
+	public void setImprimirDatos(boolean imprimirDatos) {
+		this.imprimirDatos = imprimirDatos;
 	}
 	
 	// Calcula el desplazamiento del Animat
@@ -143,19 +148,17 @@ public class Animat implements Runnable {
 		double despX, despY;
 		
 		// Guardar posición actual
-		posicionAnterior.setRoundRect(PosX - 4.0, PosY - 4.0, ANCHO_ANIMAT + 8, ALTURA_ANIMAT + 8, 4.0, 4.0);
-		LastPosX = PosX;  // Guardando variables
-		LastPosY = PosY;
-		
+		posicionAnterior.setRoundRect(x - 4.0, y - 4.0, ANCHO_ANIMAT + 8, ALTURA_ANIMAT + 8, 4.0, 4.0);
+
 		// Calcular desplazamiento
-		despX = VelocidadDesplazamiento * Math.cos(Angulo);
-		despY = VelocidadDesplazamiento * Math.sin(Angulo);
+		despX = velocidadDesplazamiento * Math.cos(Angulo);
+		despY = velocidadDesplazamiento * Math.sin(Angulo);
 		if(!Direccion) {
 			despX = -despX;		// La función arcotangente de Java solo soporta angulos
 			despY = -despY;		// entre PI/2 y -PI/2, de 90° a -90°
 		}
-		setPosicion(PosX + despX, PosY + despY);
-		bDesplazandose = true;
+		setPosicion(x + despX, y + despY);
+		desplazandose = true;
 		
 		// Incremento de las motivaciones
 		Hambre += 0.05;
@@ -257,15 +260,15 @@ public class Animat implements Runnable {
 		//boolean CondAntAgresion = false;
 		
 		// Calcula el radio de distancia a los alimentos existentes
-		for(i = 0; i < Mnd.getNumeroPlatos(); i++) {
-			X = (Mnd.AlimentosMundo[i].getX() + (Mnd.AlimentosMundo[i].getWidth()/2)) - (PosX + (ANCHO_ANIMAT /2));
-			Y = (Mnd.AlimentosMundo[i].getY() + (Mnd.AlimentosMundo[i].getHeight()/2)) - (PosY + (ALTURA_ANIMAT /2));
+		for(i = 0; i < mundo.getNumeroPlatos(); i++) {
+			X = (mundo.AlimentosMundo[i].getX() + (mundo.AlimentosMundo[i].getWidth()/2)) - (x + (ANCHO_ANIMAT /2));
+			Y = (mundo.AlimentosMundo[i].getY() + (mundo.AlimentosMundo[i].getHeight()/2)) - (y + (ALTURA_ANIMAT /2));
 			rad = Math.sqrt(Math.pow(X, 2.0) + Math.pow(Y, 2.0));
 			
 			// Determinan la distancia del plato de agua o comida más cercanos
-			if ((rad < DistAgua) && (Mnd.ColorAlimentosMundo[i] == Color.blue)) {
+			if ((rad < DistAgua) && (mundo.ColorAlimentosMundo[i] == Color.blue)) {
 				DistAgua = rad;
-				PlatoBeb = Mnd.AlimentosMundo[i];
+				PlatoBeb = mundo.AlimentosMundo[i];
 				
 				if (X == 0) {  // Evita una division entre 0
 					DirAgua = Math.PI/2;
@@ -275,9 +278,9 @@ public class Animat implements Runnable {
 					SentAgua = X > 0;
 				}
 			}
-			if ((rad < DistComida) && (Mnd.ColorAlimentosMundo[i] == Color.green)) {
+			if ((rad < DistComida) && (mundo.ColorAlimentosMundo[i] == Color.green)) {
 				DistComida = rad;
-				PlatoCom = Mnd.AlimentosMundo[i];
+				PlatoCom = mundo.AlimentosMundo[i];
 				
 				if (X == 0) {
 					DirComida = Math.PI/2;
@@ -290,18 +293,18 @@ public class Animat implements Runnable {
 			
 			// Determina si las condiciones de alimento o agua al alcance estan activas
 			if (rad < 70) {
-				CondAntAgua = (Mnd.ColorAlimentosMundo[i] == Color.blue) || CondAntAgua;
-				CondAntComida = (Mnd.ColorAlimentosMundo[i] == Color.green) || CondAntComida;
+				CondAntAgua = (mundo.ColorAlimentosMundo[i] == Color.blue) || CondAntAgua;
+				CondAntComida = (mundo.ColorAlimentosMundo[i] == Color.green) || CondAntComida;
 			}
 		}
 		
 		// Sensado de Animats cercanos
-		for(i = 0; i < Mnd.iNumeroAnimats; i++) {
-			if (Mnd.Perro[i] != this) { // Esta condicion evita que el Animat se sense a sí mismo
-				X = Mnd.Perro[i].dameX() - PosX;
-				Y = Mnd.Perro[i].dameY() - PosY;
+		for(i = 0; i < mundo.iNumeroAnimats; i++) {
+			if (mundo.Perro[i] != this) { // Esta condicion evita que el Animat se sense a sí mismo
+				X = mundo.Perro[i].getX() - x;
+				Y = mundo.Perro[i].getY() - y;
 				rad = Math.sqrt(Math.pow(X, 2.0) + Math.pow(Y, 2.0));
-				CondAgresion = Mnd.Perro[i].Ladrando || CondAgresion;
+				CondAgresion = mundo.Perro[i].Ladrando || CondAgresion;
 				
 				// Determinacion de la distancia al Animat mas cercano
 				if (rad < DistAnimat) {
@@ -417,22 +420,22 @@ public class Animat implements Runnable {
 		if (ActivacionLadrar > 150) ActivacionLadrar = 150;
 		if (ActivacionPelear > 150) ActivacionPelear = 150;
 		
-		if(bMostrarVentana) {
-			Vent.EscribeActivacionBeber(ActivacionBeber);
-			Vent.EscribeActivacionComer(ActivacionComer);
-			Vent.EscribeActivacionHuir(ActivacionHuir);
-			Vent.EscribeActivacionIrPorAgua(ActivacionIrPorAgua);
-			Vent.EscribeActivacionIrPorComida(ActivacionIrPorComida);
-			Vent.EscribeActivacionLadrar(ActivacionLadrar);
-			Vent.EscribeActivacionPelear(ActivacionPelear);
-			Vent.EscribeMotivacionHambre(Hambre);
-			Vent.EscribeMotivacionIra(Ira);
-			Vent.EscribeMotivacionMiedo(Miedo);
-			Vent.EscribeMotivacionSed(Sed);
-			Vent.EscribeSensoresAgresion(Agresion);
-			Vent.EscribeSensoresAguaAlAlcance(AguaAlAlcance);
-			Vent.EscribeSensoresComidaAlAlcance(AlimentoAlAlcance);
-			Vent.EscribeSensoresPerro(AnimatAlAlcance);
+		if(imprimirDatos) {
+			ventana.EscribeActivacionBeber(ActivacionBeber);
+			ventana.EscribeActivacionComer(ActivacionComer);
+			ventana.EscribeActivacionHuir(ActivacionHuir);
+			ventana.EscribeActivacionIrPorAgua(ActivacionIrPorAgua);
+			ventana.EscribeActivacionIrPorComida(ActivacionIrPorComida);
+			ventana.EscribeActivacionLadrar(ActivacionLadrar);
+			ventana.EscribeActivacionPelear(ActivacionPelear);
+			ventana.EscribeMotivacionHambre(Hambre);
+			ventana.EscribeMotivacionIra(Ira);
+			ventana.EscribeMotivacionMiedo(Miedo);
+			ventana.EscribeMotivacionSed(Sed);
+			ventana.EscribeSensoresAgresion(Agresion);
+			ventana.EscribeSensoresAguaAlAlcance(AguaAlAlcance);
+			ventana.EscribeSensoresComidaAlAlcance(AlimentoAlAlcance);
+			ventana.EscribeSensoresPerro(AnimatAlAlcance);
 		}
 		
 			
@@ -550,7 +553,7 @@ public class Animat implements Runnable {
 	private void IrPorComida() {
 		Peleando = false; Ladrando = false; Huyendo = false;
 		
-		if (VelocidadDesplazamiento > 0.25) VelocidadDesplazamiento = 0.25;
+		if (velocidadDesplazamiento > 0.25) velocidadDesplazamiento = 0.25;
 		Desplazamiento(DireccionComida, SentidoComida);
 	}
 	
@@ -561,11 +564,11 @@ public class Animat implements Runnable {
 		else if (CiclosdeEspera < 400) {
 			Comiendo = true;
 			CiclosdeEspera++;
-			bDesplazandose = false;
+			desplazandose = false;
 			Sed += 0.005;
 			if (Sed > 150) Sed = 150;
 		} else {
-			Mnd.SetQuitarPlatoComidoBebido(PlatoComido);
+			mundo.SetQuitarPlatoComidoBebido(PlatoComido);
 			CiclosdeEspera = 0;
 			Comiendo = false;
 			Sed += 0.005;
@@ -582,7 +585,7 @@ public class Animat implements Runnable {
 	private void IrPorAgua() {
 		Peleando = false; Ladrando = false; Huyendo = false;
 		
-		if (VelocidadDesplazamiento > 0.25) VelocidadDesplazamiento = 0.25;
+		if (velocidadDesplazamiento > 0.25) velocidadDesplazamiento = 0.25;
 		Desplazamiento(DireccionAgua, SentidoAgua);
 	}
 	
@@ -593,11 +596,11 @@ public class Animat implements Runnable {
 		else if (CiclosdeEspera < 400) {
 			Bebiendo = true;
 			CiclosdeEspera++;
-			bDesplazandose = false;
+			desplazandose = false;
 			Hambre += 0.005;
 			if (Hambre > 150) Hambre = 150;
 		} else {
-			Mnd.SetQuitarPlatoComidoBebido(PlatoBebido);
+			mundo.SetQuitarPlatoComidoBebido(PlatoBebido);
 			CiclosdeEspera = 0;
 			Bebiendo = false;
 			Hambre += 0.005;
@@ -609,7 +612,7 @@ public class Animat implements Runnable {
 	}
 	
 	private void Ladrar() {
-		bDesplazandose = false;
+		desplazandose = false;
 		Ladrando = true;
 		Huyendo = false;
 		Ira += 0.005;
@@ -625,7 +628,7 @@ public class Animat implements Runnable {
 	private void Pelear() {
 		Peleando = true;
 		Huyendo = false;
-		if (VelocidadDesplazamiento != 0.3) VelocidadDesplazamiento = 0.3;
+		if (velocidadDesplazamiento != 0.3) velocidadDesplazamiento = 0.3;
 		Desplazamiento(DireccionAnimat, SentidoAnimat);
 		Ira -= 5;
 		Miedo += 0.15;
@@ -636,7 +639,7 @@ public class Animat implements Runnable {
 	private void Huir () {
 		Peleando = false; Ladrando = false;
 		Huyendo = true;
-		if (VelocidadDesplazamiento < 0.45) VelocidadDesplazamiento = 0.45;
+		if (velocidadDesplazamiento < 0.45) velocidadDesplazamiento = 0.45;
 		Desplazamiento(DireccionAnimat, !SentidoAnimat);
 		Hambre += 0.05;
 		Sed += 0.05;
