@@ -17,29 +17,24 @@ import animatscaninos.interfaz.Interfase;
 /** Applet donde esta implementado el mundo que rodea a los Animats y que además
  *  controla los Threads que estan siendo ejecutados a cada instante */
 public class Mundo extends Applet implements Runnable {
-    // Elementos del mundo
-	// TODO Si es posible, implementar muros y rastros de orina
-	//RoundRectangle2D Muro1, Muro2;     // Elementos muestra
-	Ellipse2D Agua1, Agua2, Agua3, PlatoComida1, PlatoComida2;
-	private Ellipse2D AlimentoBorrado;
-	//Ellipse2D  Poste1, Poste2;
-	final static double dimensionAguaComida = 30;
-	final static Color colorAgua = Color.blue;
-	final static Color colorComida = Color.green;
-	Ellipse2D[] AlimentosMundo; // Alimentos instanciados en el mundo y sus colores
-	Color[] ColorAlimentosMundo;
+	private final static int NUMERO_MAXIMO_PLATOS = 50;
+
+	private final static double DIMENSION_PLATO = 30;
+
+	private final static Color COLOR_PLATO_AGUA = Color.blue;
+
+	private final static Color COLOR_PLATO_COMIDA = Color.green;
+
+	// TODO Si es posible, implementar muros, postes y rastros de orina
+
+	private Ellipse2D platoBorrar;
+
+	Ellipse2D[] contornoPlatos;
+
+	Color[] colorPlatos;
 
 	private int numeroPlatos;
 
-	private final static int NUMERO_MAXIMO_PLATOS = 50;
-
-	//int[][] MapaOrinas;  			   // Los rastros de orina pertenecen a un Animat. Este mapa nos indicará
-						 			   // a quien pertenece cada rastro
-	//int iNumeroOrinas;   			   // Número de orinas en el mundo
-	
-	// Características del Mundo
-	Dimension DimensionMundo;
-	
 	// TODO Checar si son necesarios estos atributos para la implementacion del desplazamiento
 	// de Animats usando el mouse
 	double lastmx, lastmy , lastx, lasty;  // Ultimas coordenadas del rectangulo
@@ -65,7 +60,7 @@ public class Mundo extends Applet implements Runnable {
 	Interfase Ventana;
 	final static long serialVersionUID = 1;
 	
-	Thread timer;
+	private boolean simulacionActiva = false;
 
 	public int getNumeroPlatos() {
 		return numeroPlatos;
@@ -93,33 +88,32 @@ public class Mundo extends Applet implements Runnable {
 		bPlatoComidoBebido = false;
 		
 		// Inicializar Elementos del mundo
-		Agua1 = new Ellipse2D.Double(50,70,30,30);
-		Agua2 = new Ellipse2D.Double(300,70,30,30);
-		Agua3 = new Ellipse2D.Double(450,280,30,30);
-		PlatoComida1 = new Ellipse2D.Double(19,300,30,30);
-		PlatoComida2 = new Ellipse2D.Double(600,50,30,30);
+		Ellipse2D Agua1 = new Ellipse2D.Double(50,70,30,30);
+		Ellipse2D Agua2 = new Ellipse2D.Double(300,70,30,30);
+		Ellipse2D Agua3 = new Ellipse2D.Double(450,280,30,30);
+		Ellipse2D PlatoComida1 = new Ellipse2D.Double(19,300,30,30);
+		Ellipse2D PlatoComida2 = new Ellipse2D.Double(600,50,30,30);
 		
 		// Introducir elementos del mundo en el arreglo
-		AlimentosMundo = new Ellipse2D[NUMERO_MAXIMO_PLATOS];
-		AlimentosMundo[0] = Agua1;
-		AlimentosMundo[1] = Agua2;
-		AlimentosMundo[2] = Agua3;
-		AlimentosMundo[3] = PlatoComida1;
-		AlimentosMundo[4] = PlatoComida2;
+		contornoPlatos = new Ellipse2D[NUMERO_MAXIMO_PLATOS];
+		contornoPlatos[0] = Agua1;
+		contornoPlatos[1] = Agua2;
+		contornoPlatos[2] = Agua3;
+		contornoPlatos[3] = PlatoComida1;
+		contornoPlatos[4] = PlatoComida2;
 		
 		// Les da su color a los elementos del mundo
-		ColorAlimentosMundo = new Color[NUMERO_MAXIMO_PLATOS];
-		ColorAlimentosMundo[0] = Color.blue;
-		ColorAlimentosMundo[1] = Color.blue;
-		ColorAlimentosMundo[2] = Color.blue;
-		ColorAlimentosMundo[3] = Color.green;
-		ColorAlimentosMundo[4] = Color.green;
+		colorPlatos = new Color[NUMERO_MAXIMO_PLATOS];
+		colorPlatos[0] = Color.blue;
+		colorPlatos[1] = Color.blue;
+		colorPlatos[2] = Color.blue;
+		colorPlatos[3] = Color.green;
+		colorPlatos[4] = Color.green;
 		numeroPlatos = 5; // Numero de alimentos iniciales en el mundo
 		
 		// Inicializa este objeto para cuando se necesite borrar un plato de comida o agua
-		AlimentoBorrado = new Ellipse2D.Double(0,0,dimensionAguaComida + 2,dimensionAguaComida +2);
-		
-		Perro = new Animat[iMaxAnimats];  
+
+		Perro = new Animat[iMaxAnimats];
 		iAnimatApuntado = 0;  				// Inicializa lista de Animats
 		iNumeroAnimats = 0;
 		PerroBorrado = new RoundRectangle2D.Double(0, 0, Animat.ANCHO_ANIMAT + 2, Animat.ALTURA_ANIMAT + 2, 4, 4);
@@ -210,7 +204,7 @@ public class Mundo extends Applet implements Runnable {
 		
 		if(bBorrarComidaAgua){			// Borra el plato de comida o de agua que fue
 			g2d.setPaint(Color.white);	// seleccionado
-			g2d.fill(AlimentoBorrado);
+			g2d.fill(platoBorrar);
 			bBorrarComidaAgua = false;
 		}
 		
@@ -227,18 +221,18 @@ public class Mundo extends Applet implements Runnable {
 		}
 
 		for(Animat perro:Perro) {
-			if(perro.isDesplazandose()) {
+			if(perro != null && perro.isDesplazandose()) {
 				g2d.setPaint(Color.white);
 				g2d.fill(perro.getPosicionAnterior());
 			}
 		}
 
 		for(i = 0; i< numeroPlatos; i++) {		// Imprime los alimentos de los Animats
-			g2d.setPaint(ColorAlimentosMundo[i]);
-			g2d.fill(AlimentosMundo[i]);
+			g2d.setPaint(colorPlatos[i]);
+			g2d.fill(contornoPlatos[i]);
 			g2d.setStroke(BordeShadow);
 			g2d.setPaint(Color.black);
-			g2d.draw(AlimentosMundo[i]);
+			g2d.draw(contornoPlatos[i]);
 		}
 		
 		for(i = 0; i<iNumeroAnimats; i++){
@@ -284,13 +278,13 @@ public class Mundo extends Applet implements Runnable {
 
 	// Crear un plato de comida o de agua: si id = true, comida, agua en otro caso
 	private void CrearPlatoComidaAgua(MouseEvent e, boolean id) {
-		AlimentosMundo[numeroPlatos] = new Ellipse2D.Double((double)e.getX() - (dimensionAguaComida/2),(double)e.getY() - (dimensionAguaComida/2),30,30);
+		contornoPlatos[numeroPlatos] = new Ellipse2D.Double((double)e.getX() - (DIMENSION_PLATO /2),(double)e.getY() - (DIMENSION_PLATO /2),30,30);
 		if (id) {
-			ColorAlimentosMundo[numeroPlatos] = colorComida;
+			colorPlatos[numeroPlatos] = COLOR_PLATO_COMIDA;
 			bPonerComida = false;
 		}
 		else {
-			ColorAlimentosMundo[numeroPlatos] = colorAgua;
+			colorPlatos[numeroPlatos] = COLOR_PLATO_AGUA;
 			bPonerAgua = false;
 		}
 		numeroPlatos++;
@@ -315,18 +309,18 @@ public class Mundo extends Applet implements Runnable {
 		int i;
 		
 		for(i = 0; i< numeroPlatos; i++){
-			if (AlimentosMundo[i].contains((double)e.getX(), (double)e.getY()) &&
-					(((ColorAlimentosMundo[i] == colorComida) && id) ||
-					((ColorAlimentosMundo[i] == colorAgua) && !id))) {
+			if (contornoPlatos[i].contains((double)e.getX(), (double)e.getY()) &&
+					(((colorPlatos[i] == COLOR_PLATO_COMIDA) && id) ||
+					((colorPlatos[i] == COLOR_PLATO_AGUA) && !id))) {
 				// Guarda la posicion del alimento que se borrara y pone la bandera de borrado
 				// en alto
-				AlimentoBorrado = new Ellipse2D.Double(AlimentosMundo[i].getX()-2, 
-					AlimentosMundo[i].getY()-2,dimensionAguaComida+4,dimensionAguaComida+4);
+				platoBorrar = new Ellipse2D.Double(contornoPlatos[i].getX()-2,
+					contornoPlatos[i].getY()-2, DIMENSION_PLATO +4, DIMENSION_PLATO +4);
 				bBorrarComidaAgua = true;
-				AlimentosMundo[i] = AlimentosMundo[numeroPlatos - 1];
-				AlimentosMundo[numeroPlatos - 1] = null;
-				ColorAlimentosMundo[i] = ColorAlimentosMundo[numeroPlatos - 1];
-				ColorAlimentosMundo[numeroPlatos -1] = null;
+				contornoPlatos[i] = contornoPlatos[numeroPlatos - 1];
+				contornoPlatos[numeroPlatos - 1] = null;
+				colorPlatos[i] = colorPlatos[numeroPlatos - 1];
+				colorPlatos[numeroPlatos -1] = null;
 				numeroPlatos--;
 				if (id) bQuitarComida = false;  // Desmarca la bandera, segun el caso
 				else bQuitarAgua = false;
@@ -335,7 +329,7 @@ public class Mundo extends Applet implements Runnable {
 	}
 
 	public boolean hasPlatos(Color alimento) {
-		for(Color colorPlato: ColorAlimentosMundo)
+		for(Color colorPlato: colorPlatos)
 			if(colorPlato == alimento)
 				return true;
 
@@ -355,20 +349,20 @@ public class Mundo extends Applet implements Runnable {
 		boolean PlatoEncontrado = false;
 		
 		for(i = 0; i < numeroPlatos; i++){
-			if (AlimentosMundo[i] == ComidaEliminada) {
+			if (contornoPlatos[i] == ComidaEliminada) {
 				PlatoEncontrado = true;
 				h = i; // Para no perder el indice
 			}
 		}
 		
 		if (PlatoEncontrado) {
-			AlimentoBorrado = new Ellipse2D.Double(AlimentosMundo[h].getX()-2,
-					AlimentosMundo[h].getY()-2, dimensionAguaComida+4,dimensionAguaComida+4);
+			platoBorrar = new Ellipse2D.Double(contornoPlatos[h].getX()-2,
+					contornoPlatos[h].getY()-2, DIMENSION_PLATO +4, DIMENSION_PLATO +4);
 			bBorrarComidaAgua = true;
-			AlimentosMundo[h] = AlimentosMundo[numeroPlatos - 1];
-			AlimentosMundo[numeroPlatos - 1] = null;
-			ColorAlimentosMundo[h] = ColorAlimentosMundo[numeroPlatos - 1];
-			ColorAlimentosMundo[numeroPlatos - 1] = null;
+			contornoPlatos[h] = contornoPlatos[numeroPlatos - 1];
+			contornoPlatos[numeroPlatos - 1] = null;
+			colorPlatos[h] = colorPlatos[numeroPlatos - 1];
+			colorPlatos[numeroPlatos - 1] = null;
 			numeroPlatos--;
 		}
 	}
@@ -444,16 +438,15 @@ public class Mundo extends Applet implements Runnable {
 	}
 	
 	public void start() {
-		timer = new Thread(this);
-		timer.start();
+		Thread simulacion = new Thread(this);
+		simulacion.start();
+		simulacionActiva = true;
 	}
 	
-	// TODO Hay que especificar si el Mundo correra un Thread
 	public void run() {
-		Thread me = Thread.currentThread();
-		while(me == timer) {
+		while(simulacionActiva) {
 			try {
-				Thread.currentThread().sleep(10);
+				Thread.sleep(10);
 			}
 			catch (InterruptedException e) {
 				
@@ -463,7 +456,7 @@ public class Mundo extends Applet implements Runnable {
 	}
 	
 	public void stop(){
-		timer = null;
+		simulacionActiva = false;
 	}
 	
 }

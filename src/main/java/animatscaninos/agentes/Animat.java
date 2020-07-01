@@ -261,14 +261,14 @@ public class Animat implements Runnable {
 		
 		// Calcula el radio de distancia a los alimentos existentes
 		for(i = 0; i < mundo.getNumeroPlatos(); i++) {
-			X = (mundo.AlimentosMundo[i].getX() + (mundo.AlimentosMundo[i].getWidth()/2)) - (x + (ANCHO_ANIMAT /2));
-			Y = (mundo.AlimentosMundo[i].getY() + (mundo.AlimentosMundo[i].getHeight()/2)) - (y + (ALTURA_ANIMAT /2));
+			X = (mundo.contornoPlatos[i].getX() + (mundo.contornoPlatos[i].getWidth()/2)) - (x + (ANCHO_ANIMAT /2));
+			Y = (mundo.contornoPlatos[i].getY() + (mundo.contornoPlatos[i].getHeight()/2)) - (y + (ALTURA_ANIMAT /2));
 			rad = Math.sqrt(Math.pow(X, 2.0) + Math.pow(Y, 2.0));
 			
 			// Determinan la distancia del plato de agua o comida más cercanos
-			if ((rad < DistAgua) && (mundo.ColorAlimentosMundo[i] == Color.blue)) {
+			if ((rad < DistAgua) && (mundo.colorPlatos[i] == Color.blue)) {
 				DistAgua = rad;
-				PlatoBeb = mundo.AlimentosMundo[i];
+				PlatoBeb = mundo.contornoPlatos[i];
 				
 				if (X == 0) {  // Evita una division entre 0
 					DirAgua = Math.PI/2;
@@ -278,9 +278,9 @@ public class Animat implements Runnable {
 					SentAgua = X > 0;
 				}
 			}
-			if ((rad < DistComida) && (mundo.ColorAlimentosMundo[i] == Color.green)) {
+			if ((rad < DistComida) && (mundo.colorPlatos[i] == Color.green)) {
 				DistComida = rad;
-				PlatoCom = mundo.AlimentosMundo[i];
+				PlatoCom = mundo.contornoPlatos[i];
 				
 				if (X == 0) {
 					DirComida = Math.PI/2;
@@ -293,8 +293,8 @@ public class Animat implements Runnable {
 			
 			// Determina si las condiciones de alimento o agua al alcance estan activas
 			if (rad < 70) {
-				CondAntAgua = (mundo.ColorAlimentosMundo[i] == Color.blue) || CondAntAgua;
-				CondAntComida = (mundo.ColorAlimentosMundo[i] == Color.green) || CondAntComida;
+				CondAntAgua = (mundo.colorPlatos[i] == Color.blue) || CondAntAgua;
+				CondAntComida = (mundo.colorPlatos[i] == Color.green) || CondAntComida;
 			}
 		}
 		
