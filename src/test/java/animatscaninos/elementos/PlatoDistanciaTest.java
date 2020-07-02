@@ -15,13 +15,10 @@ public class PlatoDistanciaTest {
 
     private static final double Y_PRUEBA = 100;
 
-    private static final Plato PLATO_PRUEBA = PlatosFactory.getPlatoAgua(100, 100);
+    private static final Plato PLATO_PRUEBA =
+            PlatosFactory.getPlatoAgua(X_PRUEBA, Y_PRUEBA);
 
-    private double x;
-
-    private double y;
-
-    private double distanciaEsperada;
+    private double distanciaEsperada, x, y;
 
     @Parameterized.Parameters
     public static Collection<Double[]> getTestParameters() {
@@ -50,6 +47,7 @@ public class PlatoDistanciaTest {
 
     @Test
     public void testGetDistancia() {
-        assertEquals(distanciaEsperada, PLATO_PRUEBA.getDistancia(x, y), 0.0000000000005);
+        assertEquals(distanciaEsperada, PLATO_PRUEBA.getDistancia(x, y),
+                0.0000000000005);
     }
 }

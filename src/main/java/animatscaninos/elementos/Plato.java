@@ -37,9 +37,19 @@ public class Plato {
     }
 
     public double getDistancia(double x, double y) {
-        final double deltaX = contorno.getCenterX() - x,
-                deltaY = contorno.getCenterY() - y;
-        return Math.sqrt(Math.pow(deltaX, 2.0) + Math.pow(deltaY, 2.0));
+        return Math.hypot(getDeltaX(x), getDeltaY(y));
+    }
+
+    public double getAngulo(double x, double y) {
+        return Math.atan2(getDeltaY(y), getDeltaX(x));
+    }
+
+    private double getDeltaX(double x) {
+        return contorno.getCenterX() - x;
+    }
+
+    private double getDeltaY(double y) {
+        return contorno.getCenterY() - y;
     }
 
     @Override
