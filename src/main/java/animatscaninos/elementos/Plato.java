@@ -36,6 +36,12 @@ public class Plato {
         return color;
     }
 
+    public double getDistancia(double x, double y) {
+        final double deltaX = contorno.getCenterX() - x,
+                deltaY = contorno.getCenterY() - y;
+        return Math.sqrt(Math.pow(deltaX, 2.0) + Math.pow(deltaY, 2.0));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
