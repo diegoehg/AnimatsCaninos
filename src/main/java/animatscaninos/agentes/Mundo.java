@@ -11,6 +11,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import animatscaninos.elementos.Plato;
@@ -319,6 +320,20 @@ public class Mundo extends Applet implements Runnable {
 
 	boolean isPlatoAguaWithinRange(double x, double y, double range) {
 		return isPlatoWithinRange(platosAgua, x, y, range);
+	}
+
+	Plato getPlatoComidaMasCercano(double x, double y) {
+	    return getPlatoMasCercano(platosComida, x, y);
+	}
+
+	Plato getPlatoAguaMasCercano(double x, double y) {
+		return getPlatoMasCercano(platosAgua, x, y);
+	}
+
+	private Plato getPlatoMasCercano(List<Plato> platos, double x, double y) {
+		return platos.stream().min(
+				Comparator.comparingDouble(p -> p.getDistancia(x, y)))
+				.orElseThrow(IllegalStateException::new);
 	}
 
 	private boolean isPlatoWithinRange(
