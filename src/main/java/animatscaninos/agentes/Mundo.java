@@ -313,6 +313,11 @@ public class Mundo extends Applet implements Runnable {
 	    platosAgua.add(PlatosFactory.getPlatoAgua(centerX, centerY));
 	}
 
+	boolean isPlatoComidaWithinRange(double x, double y, double range) {
+	    return platosComida.stream().anyMatch(
+	    		p ->  p.getDistancia(x, y) <= range);
+	}
+
 	public void setCrearPlatoComida() {
 		bPonerComida = numeroPlatos < NUMERO_MAXIMO_PLATOS;
 	}
@@ -357,7 +362,7 @@ public class Mundo extends Applet implements Runnable {
 		platos.stream()
 				.filter(p -> p.getContorno().contains(x, y))
 				.findAny()
-				.ifPresent(p -> platos.remove(p));
+				.ifPresent(platos::remove);
 	}
 
 	public boolean hasPlatos(Color alimento) {
