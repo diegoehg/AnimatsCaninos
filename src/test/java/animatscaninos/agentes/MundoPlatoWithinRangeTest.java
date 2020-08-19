@@ -70,4 +70,11 @@ public class MundoPlatoWithinRangeTest {
         mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
         assertEquals(expected, mundo.isPlatoComidaWithinRange(x, y, range));
     }
+
+    @Test
+    public void testIsPlatoAguaWithinRange() {
+        Mundo mundo = new Mundo();
+        mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);
+        assertEquals(expected, mundo.isPlatoAguaWithinRange(x, y, range));
+    }
 }

@@ -314,8 +314,16 @@ public class Mundo extends Applet implements Runnable {
 	}
 
 	boolean isPlatoComidaWithinRange(double x, double y, double range) {
-	    return platosComida.stream().anyMatch(
-	    		p ->  p.getDistancia(x, y) <= range);
+	    return isPlatoWithinRange(platosComida, x, y, range);
+	}
+
+	boolean isPlatoAguaWithinRange(double x, double y, double range) {
+		return isPlatoWithinRange(platosAgua, x, y, range);
+	}
+
+	private boolean isPlatoWithinRange(
+			List<Plato> platos, double x, double y, double range) {
+		return platos.stream().anyMatch(p -> p.getDistancia(x, y) <= range);
 	}
 
 	public void setCrearPlatoComida() {
