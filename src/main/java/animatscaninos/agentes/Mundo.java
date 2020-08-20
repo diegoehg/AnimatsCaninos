@@ -377,8 +377,16 @@ public class Mundo extends Applet implements Runnable {
 		removePlatoFromList(x, y, platosComida);
 	}
 
+	void removePlatoComida(Plato plato) {
+	    removePlatoFromList(plato, platosComida);
+	}
+
 	void removePlatoAgua(double x, double y) {
-	   removePlatoFromList(x, y, platosAgua);
+		removePlatoFromList(x, y, platosAgua);
+	}
+
+	void removePlatoAgua(Plato plato) {
+		removePlatoFromList(plato, platosAgua);
 	}
 
 	private void removePlatoFromList(double x, double y, List<Plato> platos) {
@@ -386,6 +394,10 @@ public class Mundo extends Applet implements Runnable {
 				.filter(p -> p.getContorno().contains(x, y))
 				.findAny()
 				.ifPresent(platos::remove);
+	}
+
+	private void removePlatoFromList(Plato plato, List<Plato> platos) {
+		platos.remove(plato);
 	}
 
 	public boolean hasPlatos(Color alimento) {

@@ -27,7 +27,7 @@ public class MundoTest {
     }
 
     @Test
-    public void removingPlatoComida() {
+    public void removingPlatoComidaCoordenadas() {
         Mundo mundo = new Mundo();
         mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
         mundo.removePlatoComida(X_DEFAULT, Y_DEFAULT);
@@ -35,10 +35,32 @@ public class MundoTest {
     }
 
     @Test
-    public void removingPlatoAgua() {
+    public void removinPlatoComidaInstancia() {
+        Mundo mundo = new Mundo();
+        mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
+
+        Plato plato = PlatosFactory.getPlatoComida(X_DEFAULT, Y_DEFAULT);
+        mundo.removePlatoComida(plato);
+
+        assertEquals(0, mundo.getNumeroPlatosComida());
+    }
+
+    @Test
+    public void removingPlatoAguaCoordenadas() {
         Mundo mundo = new Mundo();
         mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);
         mundo.removePlatoAgua(X_DEFAULT, Y_DEFAULT);
+        assertEquals(0, mundo.getNumeroPlatosAgua());
+    }
+
+    @Test
+    public void removingPlatoAguaInstancia() {
+        Mundo mundo = new Mundo();
+        mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);
+
+        Plato plato = PlatosFactory.getPlatoAgua(X_DEFAULT, Y_DEFAULT);
+        mundo.removePlatoAgua(plato);
+
         assertEquals(0, mundo.getNumeroPlatosAgua());
     }
 
