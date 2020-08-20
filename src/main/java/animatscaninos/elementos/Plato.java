@@ -2,13 +2,14 @@ package animatscaninos.elementos;
 
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.RectangularShape;
 
 /**
  * Características de un plato.
  *
  * @author Diego Hdez.
  */
-public class Plato {
+public class Plato implements Sprite {
     final static Color COLOR_AGUA = Color.blue;
 
     final static Color COLOR_COMIDA = Color.green;
@@ -28,28 +29,12 @@ public class Plato {
         this.color = color;
     }
 
-    public Ellipse2D getContorno() {
+    public RectangularShape getContorno() {
         return contorno;
     }
 
     public Color getColor() {
         return color;
-    }
-
-    public double getDistancia(double x, double y) {
-        return Math.hypot(getDeltaX(x), getDeltaY(y));
-    }
-
-    public double getAngulo(double x, double y) {
-        return Math.atan2(getDeltaY(y), getDeltaX(x));
-    }
-
-    private double getDeltaX(double x) {
-        return contorno.getCenterX() - x;
-    }
-
-    private double getDeltaY(double y) {
-        return contorno.getCenterY() - y;
     }
 
     @Override

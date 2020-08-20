@@ -10,13 +10,13 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
-public class PlatoDistanciaTest {
+public class SpriteDistanciaTest {
     private static final double X_PRUEBA = 100;
 
     private static final double Y_PRUEBA = 100;
 
-    private static final Plato PLATO_PRUEBA =
-            PlatosFactory.getPlatoAgua(X_PRUEBA, Y_PRUEBA);
+    private static final Sprite PLATO_PRUEBA =
+            new SpriteImplementation(X_PRUEBA, Y_PRUEBA);
 
     private double distanciaEsperada, x, y;
 
@@ -39,7 +39,7 @@ public class PlatoDistanciaTest {
         });
     }
 
-    public PlatoDistanciaTest(double distanciaEsperada, double x, double y) {
+    public SpriteDistanciaTest(double distanciaEsperada, double x, double y) {
         this.distanciaEsperada = distanciaEsperada;
         this.x = x;
         this.y = y;
