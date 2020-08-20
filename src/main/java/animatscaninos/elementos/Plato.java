@@ -13,7 +13,7 @@ public class Plato {
 
     final static Color COLOR_COMIDA = Color.green;
 
-    private final static double DIMENSION_PLATO = 30;
+    public final static double DIMENSION_PLATO = 30;
 
     private Ellipse2D contorno;
 
