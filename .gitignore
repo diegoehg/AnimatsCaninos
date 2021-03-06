@@ -7,6 +7,7 @@ build
 # Build and Release Folders
 bin-debug/
 bin-release/
+bin/
 
 # Project property files
 .actionScriptProperties
@@ -14,6 +15,5 @@ bin-release/
 .settings/
 .project
 
-# IntelliJ artifacts
 .idea
 *.iml
