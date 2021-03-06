@@ -23,3 +23,4 @@ Referencias bibliográficas.
 
 [1] Maes, P. "How to do the right thing." _Connection Science_ 1(3):291-323.
 [2] Pattie M. 1991. "A bottom-up mechanism for behavior selection in an artificial creature". En _Proceedings of the first international conference on simulation of adaptive behavior on From animals to animats_, Jean-Arcady Meyer and Stewart W. Wilson (Eds.). MIT Press, USA, 238-246.
+
