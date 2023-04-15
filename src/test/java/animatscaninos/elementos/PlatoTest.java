@@ -2,7 +2,7 @@ package animatscaninos.elementos;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class PlatoTest {
     @Test
@@ -10,6 +10,6 @@ public class PlatoTest {
         final double centerX = 78, centerY = 96;
         Plato plato1 = PlatosFactory.getPlatoAgua(centerX, centerY),
                 plato2 = PlatosFactory.getPlatoAgua(centerX, centerY);
-        assertTrue(plato1.equals(plato2));
+        assertEquals(plato1, plato2);
     }
 }

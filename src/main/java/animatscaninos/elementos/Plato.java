@@ -16,9 +16,9 @@ public class Plato implements Sprite {
 
     public final static double DIMENSION_PLATO = 30;
 
-    private Ellipse2D contorno;
+    private final Ellipse2D contorno;
 
-    private Color color;
+    private final Color color;
 
     Plato(double centerX, double centerY, Color color) {
         contorno = new Ellipse2D.Double(
