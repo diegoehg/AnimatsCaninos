@@ -9,7 +9,7 @@ import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.RectangularShape;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -30,24 +30,24 @@ public class Mundo extends Applet implements Runnable {
 
 	private List<Plato> platosAgua = new ArrayList<>();
 
-	private List<Ellipse2D> elementosABorrar = new ArrayList<>();
+	private List<RectangularShape> elementosABorrar = new ArrayList<>();
 
 	// TODO Checar si son necesarios estos atributos para la implementacion del desplazamiento
 	// de Animats usando el mouse
 	double lastmx, lastmy , lastx, lasty;  // Ultimas coordenadas del rectangulo
-	
+
 	// Marcadores de eventos
 	boolean bClickAfuera, bPrimeraVez, bCrearAnimat, bPonerAgua, bPonerComida, bMatarAnimat,
 			bQuitarAgua, bQuitarComida, bMonitorearAnimat, bBorrarAnimat,
 			bAnimatMovido;
-	
+
 	// Población de Animats existentes en el mundo
 	Animat[] Perro; // Lista de Animats instanciados
 	RoundRectangle2D PerroBorrado;
 	int iNumeroAnimats;
 	final static int iMaxAnimats = 10; // Máximo número de Animats que puede haber
 	int iAnimatApuntado; // Animat sobre el cual se clickeo
-	
+
 	// Atributos necesarios para la animación usada para crear un Animat
 	private RoundRectangle2D ShadowAnimat; // Sombra del Animat a punto de ser creado
 	final static BasicStroke BordeBorrarShadow = new BasicStroke(3.0f); // Borde para borrar la sombra del Animat
@@ -56,16 +56,16 @@ public class Mundo extends Applet implements Runnable {
 	double lastShadowX, lastShadowY;
 	Interfase Ventana;
 	final static long serialVersionUID = 1;
-	
+
 	private boolean simulacionActiva = false;
 
 	/**
-	 * Inicializacion de condiciones del mundo de los Animats 
+	 * Inicializacion de condiciones del mundo de los Animats
 	 */
 	public void init() {
-		
+
 		setBackground(Color.white); // Inicializa el fondo de pantalla
-		
+
 		bPrimeraVez = true; // Inicializa banderas de estado
 		bClickAfuera = true;
 		bCrearAnimat = false;
@@ -90,14 +90,14 @@ public class Mundo extends Applet implements Runnable {
 		iAnimatApuntado = 0;  				// Inicializa lista de Animats
 		iNumeroAnimats = 0;
 		PerroBorrado = new RoundRectangle2D.Double(0, 0, Animat.ANCHO_ANIMAT + 2, Animat.ALTURA_ANIMAT + 2, 4, 4);
-		
+
 		// Inicializa sombra de Animat
 		ShadowAnimat = new RoundRectangle2D.Double(0, 0, Animat.ANCHO_ANIMAT, Animat.ALTURA_ANIMAT, 4, 4);
-		
+
 		start(); // Dispara el Thread timer
-		
+
 	}
-	
+
 	public Mundo() {
 		// Agregando los listeners para el mouse:
 		addMouseListener(new MouseAdapter(){
@@ -172,16 +172,16 @@ public class Mundo extends Applet implements Runnable {
 			}
 		});
 	}
-	
+
 	public void paint(Graphics g) {
         update(g);
     }
-	
+
 	public void update(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		int i = 0;
 		RoundRectangle2D BorrarAnimat;
-		
+
 		if(bCrearAnimat){
 			g2d.setPaint(Color.white);  // Borra la sombra del animat si esta siendo creado apenas
 			g2d.setStroke(BordeBorrarShadow);
@@ -195,7 +195,7 @@ public class Mundo extends Applet implements Runnable {
 			eraseContorno(PerroBorrado, g2d);
 			bBorrarAnimat = false;
 		}
-		
+
 		if (bAnimatMovido) {
 			g2d.setPaint(Color.white);  // Borra el Animat que ha sido movido
 			BorrarAnimat = new RoundRectangle2D.Double(lastx-2, lasty-2, Animat.ANCHO_ANIMAT +4, Animat.ALTURA_ANIMAT +4, 4, 4);
@@ -227,7 +227,7 @@ public class Mundo extends Applet implements Runnable {
 	        g2d.setStroke(Animat.BORDE_ANIMAT);
 	        g2d.draw(Perro[i].getContorno());
 		}
-		
+
         if(bCrearAnimat){
         	g2d.setPaint(ColorBordeShadow);  // Dibuja la sombra del Animat que se esta creando
         	g2d.setStroke(BordeShadow);

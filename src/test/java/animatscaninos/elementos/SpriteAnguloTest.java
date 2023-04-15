@@ -10,13 +10,13 @@ import java.util.Collection;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
-public class PlatoAnguloTest {
+public class SpriteAnguloTest {
     private static final double X_PRUEBA = 100;
 
     private static final double Y_PRUEBA = 100;
 
-    private static final Plato PLATO_PRUEBA =
-            PlatosFactory.getPlatoAgua(X_PRUEBA, Y_PRUEBA);
+    private static final Sprite SPRITE_PRUEBA =
+            new SpriteImplementation(X_PRUEBA, Y_PRUEBA);
 
     private double anguloEsperado, x, y;
 
@@ -35,7 +35,7 @@ public class PlatoAnguloTest {
         });
     }
 
-    public PlatoAnguloTest(double anguloEsperado, double x, double y) {
+    public SpriteAnguloTest(double anguloEsperado, double x, double y) {
         this.anguloEsperado = anguloEsperado;
         this.x = x;
         this.y = y;
@@ -43,7 +43,7 @@ public class PlatoAnguloTest {
 
     @Test
     public void testGetAngulo() {
-        assertEquals(anguloEsperado, PLATO_PRUEBA.getAngulo(x, y),
+        assertEquals(anguloEsperado, SPRITE_PRUEBA.getAngulo(x, y),
                 0.0000000000005);
     }
 }
