@@ -8,15 +8,15 @@ public interface Sprite {
 
     Color getColor();
 
-    default double getDistancia(double x, double y) {
+    default double getDistancia(Sprite sprite) {
         return Math.hypot(
-                getContorno().getCenterX() - x,
-                getContorno().getCenterY() - y);
+                getContorno().getCenterX() - sprite.getContorno().getCenterX(),
+                getContorno().getCenterY() - sprite.getContorno().getCenterY());
     }
 
-    default double getAngulo(double x, double y) {
+    default double getAngulo(Sprite sprite) {
         return Math.atan2(
-                getContorno().getCenterY() - y,
-                getContorno().getCenterX() - x);
+                getContorno().getCenterY() - sprite.getContorno().getCenterY(),
+                getContorno().getCenterX() - sprite.getContorno().getCenterX());
     }
 }

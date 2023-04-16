@@ -26,9 +26,15 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2")
 }
 
 application {
     // Define the main class for the application
     mainClassName = "animatscaninos.interfaz.Interfase"
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
