@@ -288,12 +288,12 @@ public class Mundo extends Applet implements Runnable {
 	    platosAgua.add(p);
 	}
 
-	boolean isPlatoComidaWithinRange(double x, double y, double range) {
-	    return isPlatoWithinRange(platosComida, x, y, range);
+	boolean isPlatoComidaWithinRange(Sprite sprite, double range) {
+	    return isPlatoWithinRange(platosComida, sprite, range);
 	}
 
-	boolean isPlatoAguaWithinRange(double x, double y, double range) {
-		return isPlatoWithinRange(platosAgua, x, y, range);
+	boolean isPlatoAguaWithinRange(Sprite sprite, double range) {
+		return isPlatoWithinRange(platosAgua, sprite, range);
 	}
 
 	Plato getPlatoComidaMasCercano(Sprite sprite) {
@@ -310,9 +310,8 @@ public class Mundo extends Applet implements Runnable {
 				.orElseThrow(IllegalStateException::new);
 	}
 
-	private boolean isPlatoWithinRange(
-			List<Plato> platos, double x, double y, double range) {
-		return platos.stream().anyMatch(p -> p.getDistancia(x, y) <= range);
+	private boolean isPlatoWithinRange(List<Plato> platos, Sprite sprite, double range) {
+		return platos.stream().anyMatch(p -> p.getDistancia(sprite) <= range);
 	}
 
 	public void setCrearPlatoComida() {

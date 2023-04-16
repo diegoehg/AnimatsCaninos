@@ -280,10 +280,8 @@ public class Animat implements Runnable {
 			}
 		}
 
-		isComidaAlcanzable = mundo.isPlatoComidaWithinRange(
-				cuerpo.getContorno().getCenterX(), cuerpo.getContorno().getCenterY(), RANGO_ALCANCE);
-		isAguaAlcanzable = mundo.isPlatoAguaWithinRange(
-				cuerpo.getContorno().getCenterX(), cuerpo.getContorno().getCenterY(), RANGO_ALCANCE);
+		isComidaAlcanzable = mundo.isPlatoComidaWithinRange(cuerpo, RANGO_ALCANCE);
+		isAguaAlcanzable = mundo.isPlatoAguaWithinRange(cuerpo, RANGO_ALCANCE);
 		AnimatAlAlcance = CondAnimCerc;
 		Agresion = CondAgresion;
 

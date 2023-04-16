@@ -103,7 +103,7 @@ public class MundoTest {
     void testIsPlatoComidaWithinRange(boolean expected, double x, double y, double range) {
         Mundo mundo = new Mundo();
         mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
-        assertEquals(expected, mundo.isPlatoComidaWithinRange(x, y, range));
+        assertEquals(expected, mundo.isPlatoComidaWithinRange(new SpriteImplementation(x, y), range));
     }
 
     @ParameterizedTest
@@ -111,7 +111,7 @@ public class MundoTest {
     void testIsPlatoAguaWithinRange(boolean expected, double x, double y, double range) {
         Mundo mundo = new Mundo();
         mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);
-        assertEquals(expected, mundo.isPlatoAguaWithinRange(x, y, range));
+        assertEquals(expected, mundo.isPlatoAguaWithinRange(new SpriteImplementation(x, y), range));
     }
 
     static Stream<Arguments> getTestParametersForPlatoWithinRange() {
