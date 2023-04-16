@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SpriteAnguloTest {
+public class SpriteTest {
     private static final double X_PRUEBA = 100;
 
     private static final double Y_PRUEBA = 100;
