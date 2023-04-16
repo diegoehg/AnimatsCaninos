@@ -37,6 +37,12 @@ public class SpriteTest {
                 0.0000000000005);
     }
 
+    @ParameterizedTest
+    @MethodSource("testGetAngulo")
+    void testGetAnguloConSprite(double anguloEsperado, double x, double y) {
+        assertEquals(anguloEsperado, SPRITE_PRUEBA.getAngulo(new SpriteImplementation(x, y)), 0.0000000000005);
+    }
+
     static Stream<Arguments> testGetDistancia() {
         return Stream.of(
                 Arguments.of(0.0, X_PRUEBA, Y_PRUEBA),

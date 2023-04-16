@@ -23,4 +23,8 @@ public interface Sprite {
                 getContorno().getCenterY() - y,
                 getContorno().getCenterX() - x);
     }
+
+    default double getAngulo(Sprite sprite) {
+        return getAngulo(sprite.getContorno().getCenterX(), sprite.getContorno().getCenterY());
+    }
 }
