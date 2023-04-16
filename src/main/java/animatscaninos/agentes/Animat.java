@@ -509,9 +509,8 @@ public class Animat implements Runnable {
 		if(mundo.getNumeroPlatosComida() <= 0)
 			return;
 
-		double x = cuerpo.getContorno().getCenterX(), y = cuerpo.getContorno().getCenterY();
 		Plato plato = mundo.getPlatoComidaMasCercano(cuerpo);
-		desplazamiento(plato.getAngulo(x, y));
+		desplazamiento(plato.getAngulo(cuerpo));
 	}
 
 	private void comer() {
@@ -520,11 +519,10 @@ public class Animat implements Runnable {
 		if(mundo.getNumeroPlatosComida() <= 0)
 			return;
 
-		double x = cuerpo.getContorno().getCenterX(), y = cuerpo.getContorno().getCenterY();
 		Plato plato = mundo.getPlatoComidaMasCercano(cuerpo);
 
 		if (plato.getDistancia(cuerpo) > Plato.DIMENSION_PLATO)
-			desplazamiento(plato.getAngulo(x, y));
+			desplazamiento(plato.getAngulo(cuerpo));
 		else if (CiclosdeEspera < 400) {
 			Comiendo = true;
 			CiclosdeEspera++;
@@ -551,9 +549,8 @@ public class Animat implements Runnable {
 		if(mundo.getNumeroPlatosAgua() <= 0)
 			return;
 
-		double x = cuerpo.getContorno().getCenterX(), y = cuerpo.getContorno().getCenterY();
 		Plato plato = mundo.getPlatoAguaMasCercano(cuerpo);
-		desplazamiento(plato.getAngulo(x, y));
+		desplazamiento(plato.getAngulo(cuerpo));
 	}
 
 	private void beber() {
@@ -562,11 +559,10 @@ public class Animat implements Runnable {
 		if(mundo.getNumeroPlatosAgua() <= 0)
 			return;
 
-		double x = cuerpo.getContorno().getCenterX(), y = cuerpo.getContorno().getCenterY();
 		Plato plato = mundo.getPlatoAguaMasCercano(cuerpo);
 
 		if (plato.getDistancia(cuerpo) > Plato.DIMENSION_PLATO)
-			desplazamiento(plato.getAngulo(x, y));
+			desplazamiento(plato.getAngulo(cuerpo));
 		else if (CiclosdeEspera < 400) {
 			Bebiendo = true;
 			CiclosdeEspera++;
