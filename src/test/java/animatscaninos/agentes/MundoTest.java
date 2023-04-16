@@ -101,4 +101,15 @@ public class MundoTest {
                 PlatosFactory.getPlatoAgua(X_DEFAULT, Y_DEFAULT),
                 plato);
     }
+
+    @Test
+    void gettingPlatoAguaMasCercanoConSprite() {
+        Mundo mundo = new Mundo();
+        mundo.putPlatoAgua(X_DEFAULT + 100, Y_DEFAULT);
+        mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);
+        mundo.putPlatoAgua(X_DEFAULT + 100, Y_DEFAULT);
+
+        Plato plato = mundo.getPlatoAguaMasCercano(new SpriteImplementation(0, 0));
+        assertEquals(PlatosFactory.getPlatoAgua(X_DEFAULT, Y_DEFAULT), plato);
+    }
 }

@@ -308,6 +308,10 @@ public class Mundo extends Applet implements Runnable {
 		return getPlatoMasCercano(platosAgua, x, y);
 	}
 
+	Plato getPlatoAguaMasCercano(Sprite sprite) {
+		return getPlatoMasCercano(platosAgua, sprite.getContorno().getCenterX(), sprite.getContorno().getCenterY());
+	}
+
 	private Plato getPlatoMasCercano(List<Plato> platos, double x, double y) {
 		return platos.stream().min(
 				Comparator.comparingDouble(p -> p.getDistancia(x, y)))
