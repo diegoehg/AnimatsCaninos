@@ -59,7 +59,6 @@ public class Animat implements Runnable {
 		desplazandose = false;
 		DireccionAnimat = 0;
 		DistanciaAnimat = 0;    // cercanos.
-		SentidoAnimat = false;
 		Comiendo = false;
 		Bebiendo = false;
 		Ladrando = false;
@@ -138,15 +137,6 @@ public class Animat implements Runnable {
 
 	public void setImprimirDatos(boolean imprimirDatos) {
 		this.imprimirDatos = imprimirDatos;
-	}
-
-	private void desplazamiento(double angulo, boolean direccion) {
-		// Para los casos donde se ocupa la versión de arcotangente que soporta
-		// ángulos entre PI/2 y -PI/2
-		if(!direccion)
-			angulo += Math.PI;
-
-		desplazamiento(angulo);
 	}
 
 	private void desplazamiento(double angulo) {
@@ -240,12 +230,10 @@ public class Animat implements Runnable {
 	private void escanear() {
 		int i = 0;
 		// Coordenadas X y Y y radios de distancia a los elementos más cercanos
-		double deltaX, deltaY, distancia, DirAnimat = 0,
-				DistAnimat = 1.234e21;
+		double distancia, DirAnimat = 0, DistAnimat = 1.234e21;
 
 		boolean CondAnimCerc = false;
 		boolean CondAgresion = false;
-		boolean SentAnimat = false;
 
 		// TODO Implementar deteccion de sensado de aroma de otro animat, de lugar acogedor y
 		// de agresion de parte de otro Animat
@@ -258,21 +246,13 @@ public class Animat implements Runnable {
 		// Sensado de Animats cercanos
 		for(i = 0; i < mundo.iNumeroAnimats; i++) {
 			if (mundo.Perro[i] != this) { // Esta condicion evita que el Animat se sense a sí mismo
-				deltaX = mundo.Perro[i].getX() - getX();
-				deltaY = mundo.Perro[i].getY() - getY();
-				distancia = Math.sqrt(Math.pow(deltaX, 2.0) + Math.pow(deltaY, 2.0));
+				distancia = mundo.Perro[i].cuerpo.getDistancia(cuerpo);
 				CondAgresion = mundo.Perro[i].Ladrando || CondAgresion;
 
 				// Determinacion de la distancia al Animat mas cercano
 				if (distancia < DistAnimat) {
 					DistAnimat = distancia;
-					if (deltaX == 0) {
-						DirAnimat = Math.PI/2;
-						SentAnimat = deltaY >= 0;
-					} else {
-						DirAnimat = Math.atan(deltaY/deltaX);
-						SentAnimat = deltaX > 0;
-					}
+					DirAnimat = mundo.Perro[i].cuerpo.getAngulo(cuerpo);
 				}
 
 				// Determinacion de la condicion de cercanía del Animat
@@ -287,7 +267,6 @@ public class Animat implements Runnable {
 
 		DireccionAnimat = DirAnimat;
 		DistanciaAnimat = DistAnimat;    // cercanos.
-		SentidoAnimat = SentAnimat;
 
 		double distanciaComida = Double.MAX_VALUE;
 		if(mundo.getNumeroPlatosComida() > 0) {
@@ -599,7 +578,7 @@ public class Animat implements Runnable {
 		Peleando = true;
 		Huyendo = false;
 		if (velocidadDesplazamiento != 0.3) velocidadDesplazamiento = 0.3;
-		desplazamiento(DireccionAnimat, SentidoAnimat);
+		desplazamiento(DireccionAnimat);
 		Ira -= 5;
 		Miedo += 0.15;
 		if (Miedo > 150) Miedo = 150;
@@ -610,7 +589,7 @@ public class Animat implements Runnable {
 		Peleando = false; Ladrando = false;
 		Huyendo = true;
 		if (velocidadDesplazamiento < 0.45) velocidadDesplazamiento = 0.45;
-		desplazamiento(DireccionAnimat, !SentidoAnimat);
+		desplazamiento(invierteAngulo(DireccionAnimat));
 		Hambre += 0.05;
 		Sed += 0.05;
 
@@ -618,6 +597,10 @@ public class Animat implements Runnable {
 		if (Hambre > 150) Hambre = 150;
 		if (Sed > 150) Sed = 150;
 		if (Miedo < 0) Miedo = 0;
+	}
+
+	private double invierteAngulo(double angulo) {
+		return angulo + Math.PI;
 	}
 
 	private void EjecutarComportamiento () {
