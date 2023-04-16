@@ -3,9 +3,10 @@ package animatscaninos.agentes;
 import animatscaninos.elementos.Plato;
 import animatscaninos.elementos.PlatosFactory;
 
-import org.junit.Test;
+import animatscaninos.elementos.SpriteImplementation;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MundoTest {
     private final static double X_DEFAULT = 100;
@@ -13,21 +14,21 @@ public class MundoTest {
     private final static double Y_DEFAULT = 200;
 
     @Test
-    public void addingPlatoComida() {
+    void addingPlatoComida() {
         Mundo mundo = new Mundo();
         mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
         assertEquals(1, mundo.getNumeroPlatosComida());
     }
 
     @Test
-    public void addingPlatoAgua() {
+    void addingPlatoAgua() {
         Mundo mundo = new Mundo();
         mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);
         assertEquals(1, mundo.getNumeroPlatosAgua());
     }
 
     @Test
-    public void removingPlatoComidaCoordenadas() {
+    void removingPlatoComidaCoordenadas() {
         Mundo mundo = new Mundo();
         mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
         mundo.removePlatoComida(X_DEFAULT, Y_DEFAULT);
@@ -35,7 +36,7 @@ public class MundoTest {
     }
 
     @Test
-    public void removinPlatoComidaInstancia() {
+    void removinPlatoComidaInstancia() {
         Mundo mundo = new Mundo();
         mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
 
@@ -46,7 +47,7 @@ public class MundoTest {
     }
 
     @Test
-    public void removingPlatoAguaCoordenadas() {
+    void removingPlatoAguaCoordenadas() {
         Mundo mundo = new Mundo();
         mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);
         mundo.removePlatoAgua(X_DEFAULT, Y_DEFAULT);
@@ -54,7 +55,7 @@ public class MundoTest {
     }
 
     @Test
-    public void removingPlatoAguaInstancia() {
+    void removingPlatoAguaInstancia() {
         Mundo mundo = new Mundo();
         mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);
 
@@ -65,7 +66,7 @@ public class MundoTest {
     }
 
     @Test
-    public void gettingPlatoComidaMasCercano() {
+    void gettingPlatoComidaMasCercano() {
         Mundo mundo = new Mundo();
         mundo.putPlatoComida(X_DEFAULT + 100, Y_DEFAULT);
         mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
@@ -78,7 +79,18 @@ public class MundoTest {
     }
 
     @Test
-    public void gettingPlatoAguaMasCercano() {
+    void gettingPlatoComidaMasCercanoConSprite() {
+        Mundo mundo = new Mundo();
+        mundo.putPlatoComida(X_DEFAULT + 100, Y_DEFAULT);
+        mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
+        mundo.putPlatoComida(X_DEFAULT + 100, Y_DEFAULT);
+
+        Plato plato = mundo.getPlatoComidaMasCercano(new SpriteImplementation(0, 0));
+        assertEquals(PlatosFactory.getPlatoComida(X_DEFAULT, Y_DEFAULT), plato);
+    }
+
+    @Test
+    void gettingPlatoAguaMasCercano() {
         Mundo mundo = new Mundo();
         mundo.putPlatoAgua(X_DEFAULT + 100, Y_DEFAULT);
         mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);

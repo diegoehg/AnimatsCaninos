@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
-class SpriteImplementation implements Sprite {
+public class SpriteImplementation implements Sprite {
 
     private RectangularShape contorno;
 
-    SpriteImplementation(double x, double y) {
+    public SpriteImplementation(double x, double y) {
         final double dimension = 4;
 
         contorno = new Rectangle2D.Double(

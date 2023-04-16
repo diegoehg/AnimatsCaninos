@@ -17,6 +17,7 @@ import java.util.List;
 
 import animatscaninos.elementos.Plato;
 import animatscaninos.elementos.PlatosFactory;
+import animatscaninos.elementos.Sprite;
 import animatscaninos.interfaz.Interfase;
 
 /** Applet donde esta implementado el mundo que rodea a los Animats y que además
@@ -297,6 +298,10 @@ public class Mundo extends Applet implements Runnable {
 
 	Plato getPlatoComidaMasCercano(double x, double y) {
 	    return getPlatoMasCercano(platosComida, x, y);
+	}
+
+	Plato getPlatoComidaMasCercano(Sprite sprite) {
+		return getPlatoMasCercano(platosComida, sprite.getContorno().getCenterX(), sprite.getContorno().getCenterY());
 	}
 
 	Plato getPlatoAguaMasCercano(double x, double y) {
