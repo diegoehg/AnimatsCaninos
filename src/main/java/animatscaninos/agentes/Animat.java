@@ -3,6 +3,10 @@ package animatscaninos.agentes;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.RectangularShape;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import animatscaninos.elementos.CuerpoAnimat;
 import animatscaninos.elementos.Plato;
@@ -228,13 +232,6 @@ public class Animat implements Runnable {
 	 *  a su alrededor. En nuestro caso, leemos las estructuras gráficas instanciadas
 	 *  en la clase Mundo. */
 	private void escanear() {
-		int i = 0;
-		// Coordenadas X y Y y radios de distancia a los elementos más cercanos
-		double distancia, DirAnimat = 0, DistAnimat = 1.234e21;
-
-		boolean CondAnimCerc = false;
-		boolean CondAgresion = false;
-
 		// TODO Implementar deteccion de sensado de aroma de otro animat, de lugar acogedor y
 		// de agresion de parte de otro Animat
 		//boolean CondAntAcogedor = false;
@@ -244,29 +241,21 @@ public class Animat implements Runnable {
 
 
 		// Sensado de Animats cercanos
-		for(i = 0; i < mundo.iNumeroAnimats; i++) {
-			if (mundo.Perro[i] != this) { // Esta condicion evita que el Animat se sense a sí mismo
-				distancia = mundo.Perro[i].cuerpo.getDistancia(cuerpo);
-				CondAgresion = mundo.Perro[i].Ladrando || CondAgresion;
-
-				// Determinacion de la distancia al Animat mas cercano
-				if (distancia < DistAnimat) {
-					DistAnimat = distancia;
-					DirAnimat = mundo.Perro[i].cuerpo.getAngulo(cuerpo);
-				}
-
-				// Determinacion de la condicion de cercanía del Animat
-				CondAnimCerc = (distancia < 70) || CondAnimCerc;
-			}
+		List<Animat> otrosAnimats = mundo.Perro.stream().filter(p -> p != this).collect(Collectors.toList());
+		Optional<Animat> animatMasCercano = otrosAnimats.stream()
+				.min(Comparator.comparingDouble(a -> a.cuerpo.getDistancia(cuerpo)));
+		double direccionAlAnimatMasCercano = 0, distanciaAlAnimatMasCercano = Double.MAX_VALUE;
+		if(animatMasCercano.isPresent()) {
+			distanciaAlAnimatMasCercano = animatMasCercano.get().cuerpo.getDistancia(cuerpo);
+			direccionAlAnimatMasCercano = animatMasCercano.get().cuerpo.getAngulo(cuerpo);;
 		}
+		AnimatAlAlcance = distanciaAlAnimatMasCercano < 70;
+		DireccionAnimat = direccionAlAnimatMasCercano;
+		DistanciaAnimat = distanciaAlAnimatMasCercano;
+		Agresion = otrosAnimats.stream().anyMatch(a -> a.Ladrando);
 
 		isComidaAlcanzable = mundo.isPlatoComidaWithinRange(cuerpo, RANGO_ALCANCE);
 		isAguaAlcanzable = mundo.isPlatoAguaWithinRange(cuerpo, RANGO_ALCANCE);
-		AnimatAlAlcance = CondAnimCerc;
-		Agresion = CondAgresion;
-
-		DireccionAnimat = DirAnimat;
-		DistanciaAnimat = DistAnimat;    // cercanos.
 
 		double distanciaComida = Double.MAX_VALUE;
 		if(mundo.getNumeroPlatosComida() > 0) {
@@ -284,7 +273,7 @@ public class Animat implements Runnable {
 
 		Sed += 0.025/distanciaAgua;
 
-		Ira += 0.025/DistAnimat;
+		Ira += 0.025/distanciaAlAnimatMasCercano;
 		if (Sed > 150) Sed = 150;
 		if (Hambre > 150) Hambre = 150;
 		if (Ira > 150) Ira = 150;
