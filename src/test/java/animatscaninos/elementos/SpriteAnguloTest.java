@@ -1,15 +1,13 @@
 package animatscaninos.elementos;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(Parameterized.class)
 public class SpriteAnguloTest {
     private static final double X_PRUEBA = 100;
 
@@ -18,31 +16,23 @@ public class SpriteAnguloTest {
     private static final Sprite SPRITE_PRUEBA =
             new SpriteImplementation(X_PRUEBA, Y_PRUEBA);
 
-    private double anguloEsperado, x, y;
-
-    @Parameterized.Parameters
-    public static Collection<Double[]> getTestParameters() {
-        return Arrays.asList(new Double[][]{
-                {0.0, X_PRUEBA, Y_PRUEBA},
-                {0.0, X_PRUEBA - 10, Y_PRUEBA},
-                {Math.PI, X_PRUEBA + 10, Y_PRUEBA},
-                {Math.PI/2, X_PRUEBA, Y_PRUEBA - 10},
-                {-Math.PI/2, X_PRUEBA, Y_PRUEBA + 10},
-                {Math.PI/4, X_PRUEBA - 10 , Y_PRUEBA - 10},
-                {-Math.PI/4, X_PRUEBA - 10 , Y_PRUEBA + 10},
-                {3 * Math.PI/4, X_PRUEBA + 10 , Y_PRUEBA - 10},
-                {-3 * Math.PI/4, X_PRUEBA + 10 , Y_PRUEBA + 10}
-        });
+    static Stream<Arguments> testGetAngulo() {
+        return Stream.of(
+                Arguments.of(0.0, X_PRUEBA, Y_PRUEBA),
+                Arguments.of(0.0, X_PRUEBA - 10, Y_PRUEBA),
+                Arguments.of(Math.PI, X_PRUEBA + 10, Y_PRUEBA),
+                Arguments.of(Math.PI / 2, X_PRUEBA, Y_PRUEBA - 10),
+                Arguments.of(-Math.PI / 2, X_PRUEBA, Y_PRUEBA + 10),
+                Arguments.of(Math.PI / 4, X_PRUEBA - 10, Y_PRUEBA - 10),
+                Arguments.of(-Math.PI / 4, X_PRUEBA - 10, Y_PRUEBA + 10),
+                Arguments.of(3 * Math.PI / 4, X_PRUEBA + 10, Y_PRUEBA - 10),
+                Arguments.of(-3 * Math.PI / 4, X_PRUEBA + 10, Y_PRUEBA + 10)
+        );
     }
 
-    public SpriteAnguloTest(double anguloEsperado, double x, double y) {
-        this.anguloEsperado = anguloEsperado;
-        this.x = x;
-        this.y = y;
-    }
-
-    @Test
-    public void testGetAngulo() {
+    @ParameterizedTest
+    @MethodSource
+    public void testGetAngulo(double anguloEsperado, double x, double y) {
         assertEquals(anguloEsperado, SPRITE_PRUEBA.getAngulo(x, y),
                 0.0000000000005);
     }
