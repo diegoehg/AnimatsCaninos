@@ -72,38 +72,12 @@ public class MundoTest {
         mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
         mundo.putPlatoComida(X_DEFAULT + 100, Y_DEFAULT);
 
-        Plato plato = mundo.getPlatoComidaMasCercano(0, 0);
-        assertEquals(
-                PlatosFactory.getPlatoComida(X_DEFAULT, Y_DEFAULT),
-                plato);
-    }
-
-    @Test
-    void gettingPlatoComidaMasCercanoConSprite() {
-        Mundo mundo = new Mundo();
-        mundo.putPlatoComida(X_DEFAULT + 100, Y_DEFAULT);
-        mundo.putPlatoComida(X_DEFAULT, Y_DEFAULT);
-        mundo.putPlatoComida(X_DEFAULT + 100, Y_DEFAULT);
-
         Plato plato = mundo.getPlatoComidaMasCercano(new SpriteImplementation(0, 0));
         assertEquals(PlatosFactory.getPlatoComida(X_DEFAULT, Y_DEFAULT), plato);
     }
 
     @Test
     void gettingPlatoAguaMasCercano() {
-        Mundo mundo = new Mundo();
-        mundo.putPlatoAgua(X_DEFAULT + 100, Y_DEFAULT);
-        mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);
-        mundo.putPlatoAgua(X_DEFAULT + 100, Y_DEFAULT);
-
-        Plato plato = mundo.getPlatoAguaMasCercano(0, 0);
-        assertEquals(
-                PlatosFactory.getPlatoAgua(X_DEFAULT, Y_DEFAULT),
-                plato);
-    }
-
-    @Test
-    void gettingPlatoAguaMasCercanoConSprite() {
         Mundo mundo = new Mundo();
         mundo.putPlatoAgua(X_DEFAULT + 100, Y_DEFAULT);
         mundo.putPlatoAgua(X_DEFAULT, Y_DEFAULT);

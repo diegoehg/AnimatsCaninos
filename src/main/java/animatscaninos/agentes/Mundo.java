@@ -296,25 +296,17 @@ public class Mundo extends Applet implements Runnable {
 		return isPlatoWithinRange(platosAgua, x, y, range);
 	}
 
-	Plato getPlatoComidaMasCercano(double x, double y) {
-	    return getPlatoMasCercano(platosComida, x, y);
-	}
-
 	Plato getPlatoComidaMasCercano(Sprite sprite) {
-		return getPlatoMasCercano(platosComida, sprite.getContorno().getCenterX(), sprite.getContorno().getCenterY());
-	}
-
-	Plato getPlatoAguaMasCercano(double x, double y) {
-		return getPlatoMasCercano(platosAgua, x, y);
+		return getPlatoMasCercano(platosComida, sprite);
 	}
 
 	Plato getPlatoAguaMasCercano(Sprite sprite) {
-		return getPlatoMasCercano(platosAgua, sprite.getContorno().getCenterX(), sprite.getContorno().getCenterY());
+		return getPlatoMasCercano(platosAgua, sprite);
 	}
 
-	private Plato getPlatoMasCercano(List<Plato> platos, double x, double y) {
+	private Plato getPlatoMasCercano(List<Plato> platos, Sprite sprite) {
 		return platos.stream().min(
-				Comparator.comparingDouble(p -> p.getDistancia(x, y)))
+				Comparator.comparingDouble(p -> p.getDistancia(sprite)))
 				.orElseThrow(IllegalStateException::new);
 	}
 
