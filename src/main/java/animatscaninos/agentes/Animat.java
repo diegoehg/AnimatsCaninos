@@ -26,16 +26,6 @@ public class Animat implements Runnable {
 
 	private final static double RANGO_ALCANCE = 70;
 
-	public final static Color COLOR_ANIMAT = new Color(173,107,30); // Color cafe obscuro en RGB
-
-	public final static Color COLOR_ANIMAT_LADRANDO = new Color(193,11,11);  // Color Rojo Sangre
-
-	public final static Color COLOR_ANIMAT_HUYENDO = new Color(170,31,210); // Color morado
-
-	public final static Color COLOR_BORDE_ANIMAT = Color.black;
-
-	public final static BasicStroke BORDE_ANIMAT = new BasicStroke(2.0f);
-
 	private final CuerpoAnimat cuerpo;
 
 	private final CuerpoAnimat cuerpoPosicionAnterior;
@@ -85,6 +75,10 @@ public class Animat implements Runnable {
 
 	public RectangularShape getPosicionAnterior() {
 		return cuerpoPosicionAnterior.getContorno();
+	}
+
+	public Color getColor() {
+		return cuerpo.getColor();
 	}
 
 	public void start() {
@@ -472,6 +466,8 @@ public class Animat implements Runnable {
 	private void irPorComida() {
 		Peleando = false; Ladrando = false; Huyendo = false;
 
+		cuerpo.setColor(CuerpoAnimat.COLOR_ANIMAT);
+
 		if (velocidadDesplazamiento > 0.25) velocidadDesplazamiento = 0.25;
 
 		if(mundo.getNumeroPlatosComida() <= 0)
@@ -483,6 +479,8 @@ public class Animat implements Runnable {
 
 	private void comer() {
 		Peleando = false; Ladrando = false; Huyendo = false;
+
+		cuerpo.setColor(CuerpoAnimat.COLOR_ANIMAT);
 
 		if(mundo.getNumeroPlatosComida() <= 0)
 			return;
@@ -512,6 +510,8 @@ public class Animat implements Runnable {
 	private void irPorAgua() {
 		Peleando = false; Ladrando = false; Huyendo = false;
 
+		cuerpo.setColor(CuerpoAnimat.COLOR_ANIMAT);
+
 		if (velocidadDesplazamiento > 0.25) velocidadDesplazamiento = 0.25;
 
 		if(mundo.getNumeroPlatosAgua() <= 0)
@@ -523,6 +523,8 @@ public class Animat implements Runnable {
 
 	private void beber() {
 		Peleando = false; Ladrando = false; Huyendo = false;
+
+		cuerpo.setColor(CuerpoAnimat.COLOR_ANIMAT);
 
 		if(mundo.getNumeroPlatosAgua() <= 0)
 			return;
@@ -553,6 +555,7 @@ public class Animat implements Runnable {
 		desplazandose = false;
 		Ladrando = true;
 		Huyendo = false;
+		cuerpo.setColor(CuerpoAnimat.COLOR_ANIMAT_LADRANDO);
 		Ira += 0.005;
 		Hambre += 0.15;
 		Sed += 0.05;
@@ -566,6 +569,7 @@ public class Animat implements Runnable {
 	private void Pelear() {
 		Peleando = true;
 		Huyendo = false;
+		cuerpo.setColor(CuerpoAnimat.COLOR_ANIMAT_LADRANDO);
 		if (velocidadDesplazamiento != 0.3) velocidadDesplazamiento = 0.3;
 		desplazamiento(DireccionAnimat);
 		Ira -= 5;
@@ -577,6 +581,7 @@ public class Animat implements Runnable {
 	private void Huir () {
 		Peleando = false; Ladrando = false;
 		Huyendo = true;
+		cuerpo.setColor(CuerpoAnimat.COLOR_ANIMAT_HUYENDO);
 		if (velocidadDesplazamiento < 0.45) velocidadDesplazamiento = 0.45;
 		desplazamiento(invierteAngulo(DireccionAnimat));
 		Hambre += 0.05;

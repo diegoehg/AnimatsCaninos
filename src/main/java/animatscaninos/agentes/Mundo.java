@@ -51,9 +51,11 @@ public class Mundo extends Applet implements Runnable {
 
 	// Atributos necesarios para la animación usada para crear un Animat
 	private RoundRectangle2D ShadowAnimat; // Sombra del Animat a punto de ser creado
-	final static BasicStroke BordeBorrarShadow = new BasicStroke(3.0f); // Borde para borrar la sombra del Animat
-	final static BasicStroke BordeShadow = new BasicStroke(0.5f);
-	final static Color ColorBordeShadow = Color.lightGray;
+	private final static BasicStroke BordeBorrarShadow = new BasicStroke(3.0f); // Borde para borrar la sombra del Animat
+	private final static BasicStroke BordeShadow = new BasicStroke(0.5f);
+	private final static Color ColorBordeShadow = Color.lightGray;
+	private final static Color COLOR_BORDE_ANIMAT = Color.black;
+	private final static BasicStroke BORDE_ANIMAT = new BasicStroke(2.0f);
 	double lastShadowX, lastShadowY;
 	Interfase Ventana;
 	final static long serialVersionUID = 1;
@@ -203,18 +205,10 @@ public class Mundo extends Applet implements Runnable {
 		platosAgua.forEach(p -> printPlato(p, g2d));
 
 		Perro.forEach(animat -> {
-			if (animat.dameLadrando() || animat.damePeleando())
-				g2d.setPaint(Animat.COLOR_ANIMAT_LADRANDO);
-			else if (animat.dameHuyendo()) {
-				g2d.setPaint(Animat.COLOR_ANIMAT_HUYENDO);
-			}
-			else {
-				g2d.setPaint(Animat.COLOR_ANIMAT);
-			}
-			// Se vuelven a imprimir todos los Animats
-			g2d.fill(animat.getContorno());                // que estan instanciados
-			g2d.setPaint(Animat.COLOR_BORDE_ANIMAT);
-			g2d.setStroke(Animat.BORDE_ANIMAT);
+			g2d.setPaint(animat.getColor());
+			g2d.fill(animat.getContorno());
+			g2d.setPaint(COLOR_BORDE_ANIMAT);
+			g2d.setStroke(BORDE_ANIMAT);
 			g2d.draw(animat.getContorno());
 		});
 
