@@ -299,17 +299,17 @@ public class Interfase extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        // Se agrega el applet al layout creado en NetBeans
-        applet = new Mundo();
+        // Se agrega el mundo al layout creado en NetBeans
+        mundo = new Mundo();
         javax.swing.GroupLayout jPanelMundoLayout = new javax.swing.GroupLayout(jPanelMundo);
         jPanelMundo.setLayout(jPanelMundoLayout);
         jPanelMundoLayout.setHorizontalGroup(
             jPanelMundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(applet,javax.swing.GroupLayout.Alignment.LEADING,40,799,800)
+            .addComponent(mundo,javax.swing.GroupLayout.Alignment.LEADING,40,799,800)
         );
         jPanelMundoLayout.setVerticalGroup(
             jPanelMundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(applet,javax.swing.GroupLayout.Alignment.LEADING,40,599,600)
+            .addComponent(mundo,javax.swing.GroupLayout.Alignment.LEADING,40,599,600)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -367,38 +367,38 @@ public class Interfase extends javax.swing.JFrame {
                 .addContainerGap())
         );
         
-        applet.init();   // Se agregan estas líneas para poder iniciar el applet
-        applet.start();
+        mundo.init();   // Se agregan estas líneas para poder iniciar el mundo
+        mundo.start();
         pack();
-        applet.getVentana(this);
+        mundo.getVentana(this);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCrearAnimatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearAnimatActionPerformed
-    	applet.setCrearAnimat();
+    	mundo.setCrearAnimat();
     }//GEN-LAST:event_jButtonCrearAnimatActionPerformed
 
     private void jButtonMatarAnimatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMatarAnimatActionPerformed
-        applet.setMatarAnimat();
+        mundo.setMatarAnimat();
     }//GEN-LAST:event_jButtonMatarAnimatActionPerformed
 
     private void jButtonPonerAlimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPonerAlimentoActionPerformed
-        applet.setCrearPlatoComida();
+        mundo.setCrearPlatoComida();
     }//GEN-LAST:event_jButtonPonerAlimentoActionPerformed
 
     private void jButtonQuitarAlimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitarAlimentoActionPerformed
-    	applet.setQuitarPlatoComida();
+    	mundo.setQuitarPlatoComida();
     }//GEN-LAST:event_jButtonQuitarAlimentoActionPerformed
 
     private void jButtonPonerAguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPonerAguaActionPerformed
-        applet.setCrearPlatoAgua();
+        mundo.setCrearPlatoAgua();
     }//GEN-LAST:event_jButtonPonerAguaActionPerformed
 
     private void jButtonQuitarAguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonQuitarAguaActionPerformed
-    	applet.setQuitarPlatoAgua();
+    	mundo.setQuitarPlatoAgua();
     }//GEN-LAST:event_jButtonQuitarAguaActionPerformed
 
     private void jButtonMostrarAnimatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarAnimatActionPerformed
-        applet.setMonitorearAnimat();
+        mundo.setMonitorearAnimat();
     }//GEN-LAST:event_jButtonMostrarAnimatActionPerformed
     
     public void EscribeActivacionBeber(double Act) {
@@ -516,7 +516,7 @@ public class Interfase extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     // Otras variables
-    Mundo applet;
+    Mundo mundo;
     final static long serialVersionUID = 0;
     
 }

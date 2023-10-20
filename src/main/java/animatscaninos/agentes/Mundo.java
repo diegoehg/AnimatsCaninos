@@ -1,6 +1,5 @@
 package animatscaninos.agentes;
 
-import java.applet.Applet;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,15 +13,16 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import javax.swing.JPanel;
 
 import animatscaninos.elementos.Plato;
 import animatscaninos.elementos.PlatosFactory;
 import animatscaninos.elementos.Sprite;
 import animatscaninos.interfaz.Interfase;
 
-/** Applet donde esta implementado el mundo que rodea a los Animats y que además
+/** Panel donde esta implementado el mundo que rodea a los Animats y que además
  *  controla los Threads que estan siendo ejecutados a cada instante */
-public class Mundo extends Applet implements Runnable {
+public class Mundo extends JPanel implements Runnable {
 	private final static int NUMERO_MAXIMO_PLATOS = 50;
 
 	// TODO Si es posible, implementar muros, postes y rastros de orina
