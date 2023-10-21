@@ -32,6 +32,23 @@ En el caso del estado interno, el modelo de Maes establece a los comportamientos
 - Los sucesores son los comportamientos correspondientes del lado de los predecesores.
 
 
+## Cómo correr el proyecto
+Este proyecto ocupa Gradle para correr, la versión descargada en el wrapper corresponde a la 8.4. Para correrlo,
+es necesario una versión de Java superior a 17. Después de descargar el proyecto, introduce en la terminal el siguiente
+comando:
+
+```bash
+./gradlew run
+```
+
+Para correr los test unitarios, es necesario introducir el siguiente comando en la terminal:
+```bash
+./gradlew test
+```
+
+Para mayor información acerca de cómo correr un proyecto en Gradle,
+[consulta la documentación](https://docs.gradle.org/8.4/userguide/building_java_projects.html).
+
 ## Referencias bibliográficas.
 
 [1] Maes, P. "How to do the right thing." _Connection Science_ 1(3):291-323.
