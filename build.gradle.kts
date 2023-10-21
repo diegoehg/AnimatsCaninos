@@ -3,7 +3,7 @@
  *
  * This generated file contains a sample Java project to get you started.
  * For more details take a look at the Java Quickstart chapter in the Gradle
- * User Manual available at https://docs.gradle.org/5.4.1/userguide/tutorial_java_projects.html
+ * User Manual available at https://docs.gradle.org/7.6/userguide/building_java_projects.html
  */
 
 plugins {
@@ -17,24 +17,24 @@ plugins {
 repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.
-    implementation("com.google.guava:guava:27.0.1-jre")
+    implementation("com.google.guava:guava:31.1-jre")
 
     // Use JUnit test framework
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2")
 }
 
 application {
     // Define the main class for the application
-    mainClassName = "animatscaninos.interfaz.Interfase"
+    mainClass.set("animatscaninos.interfaz.Interfase")
 }
 
-tasks.withType<Test> {
+tasks.test {
     useJUnitPlatform()
 }
